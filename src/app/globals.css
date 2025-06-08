@@ -3,23 +3,36 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --black:#0A0A0A ;
+  --red:#E24C4C;
+  --yellow:#FEC97C;
+  --purple:#9773BD;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --black:#0A0A0A ;
+    --red:#E24C4C;
+    --yellow:#FEC97C;
+    --purple:#9773BD;
   }
 }
 
 body {
+  font-family: 'Inter', sans-serif;
   padding: 0;
   margin: 0;
+  background-color: #0a0a0a;
+ 
+  color: white;
+  min-height: 100vh;
+}
+
+.section-two {
+ background-image: radial-gradient(ellipse at top, #d3732915, transparent 50%);
+  background-color: #0a0a0a;
+   color: white;
 }
