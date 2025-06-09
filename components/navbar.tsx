@@ -29,7 +29,7 @@ export default function Navbar ({ visible = true }: { visible?: boolean }) {
         <div className="flex justify-between items-center h-full w-full  contaner md:px-20 px-8">
             <Link href={'/'}>
             <div className=" uppercase xl:text-xl sm:text-base ">
-                <img src="/images/title.png" alt="" />
+                <img src="/images/title.png" alt="" className="w-[70%]"/>
             </div>
             </Link>
             <div className="hidden lg:flex ">
