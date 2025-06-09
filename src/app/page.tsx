@@ -67,7 +67,7 @@ export default function Home() {
     </div>
     <img src="/images/eye.png" alt="" className="absolute z-[-1] bottom-40 right-0 w-[70%] lg:w-[30%] lg:top-90 md:w-[40%] xl:w-[20%]" />
     <img src="/images/pinis.png" alt="" className="absolute z-[-1] top-20  right-10 w-[30%] md:w-[20%] xl:w-[10%] " />
-    <img src="/images/eyes.png" alt="" className="absolute z-[-1] top-100 left-5 2xl:left-[140vh] xl:top-75 " />
+    <img src="/images/eyes.png" alt="" className="absolute z-[-1] top-100 right-80 xl:top-75 " />
    </div>
     </section>
     <section className="min-h-screen w-[80%] mx-auto">
@@ -76,7 +76,7 @@ export default function Home() {
           <img src="/images/people.png" alt="" className="lg:max-w-[50%] xl:max-w-[35%] md:max-w-[60%] max-w-[80%] mx-auto  2xl:px-10" />
        
         
-        <div className="flex flex-col lg:w-1/2 mx-auto gap-10">
+        <div className="flex flex-col lg:w-1/2 mx-auto gap-10 pb-5">
           <div className="flex flex-col " >
             <h1 className="w-full text-xl md:text-3xl lg:text-4xl xl:text:5xl 2xl:text-6xl font-bold  inline-block">Wie  <img src="/images/kaun.png" alt="" className="h-[1.5em] inline-block mb-2" /> ich teilnehmen?           </h1>
              
@@ -91,28 +91,77 @@ export default function Home() {
     </section>
     <section className="h-screen bg-[#FEC97C]">
       <div className="w-[80%] mx-auto">
-        <div className="mx-auto w-full flex flex-row justify-between px-10">
-          <h1 className="text-[#0A0A0A] font-bold text-[40vh]">14</h1>
-          <h1 className="text-[#0A0A0A]  text-[40vh]">|</h1>
-          <h1 className="text-[#E24C4C] font-bold text-[40vh]">18</h1>
+        <div className="mx-auto w-full flex lg:flex-row flex-col justify-between px-10 lg:pb-10">
+          <h1 className="text-[#0A0A0A] font-bold md:text-[23vh] text-[19vh] border-b-10 lg:border-b-0 mx-auto xl:text-[26vh] 2xl:text-[35vh]">14</h1>
+          <h1 className="text-[#0A0A0A]  md:text-[25vh] hidden lg:flex lg:text-[26vh] xl:text-[35vh]">|</h1>
+          <h1 className="text-[#E24C4C] font-bold md:text-[23vh] text-[19vh] mx-auto xl:text-[26vh] 2xl:text-[35vh]">18</h1>
         </div>
-        <div className="w-[80%] mx-auto">
-          <div className="">
-            <h1>Wer darf teilnehmen?</h1>
+        <div className="lg:w-[80%] w-[100%] mx-auto  ">
+          <div className="text-[#0A0A0A]">
+            <h1 className="w-full text-center lg:text-6xl text-3xl font-bold uppercase pb-5 lg:pb-20">Wer darf teilnehmen?</h1>
           </div>
-          <div className="flex flex-col md:flex-row">
-              <div className="">
-                <p className="">Teilnehmen kann jeder ab 14</p>
-                 <img src="/images/line.png" alt="" className="lg:max-w-[50%] xl:max-w-[35%] md:max-w-[60%] max-w-[80%] mx-auto  2xl:px-10" />
+          <div className="flex flex-col lg:flex-row text-[#0A0A0A] gap-10 lg:gap-30">
+              <div className="flex flex-col text-center">
+                <p className="text-2xl lg:text-3xl  lg:font-bold uppercase lg:pb-7">Teilnehmen kann jeder ab 14</p>
+                <img src="/images/line.png" alt="" className="sm:w-[60%] md:w-[50%] mx-auto lg:w-[100%]" />
               </div>
-              <div className="">
-                <p className="">Verkaufen dürfen ihre Werke allerdings nur Künstlerinnen ab 18 Jahren.</p>
+              <div className="text-center pb-5">
+                <p className="text-2xl lg:text-3xl lg:font-bold uppercase">Verkaufen dürfen ihre Werke allerdings nur Künstlerinnen ab 18 Jahren.</p>
               </div>
           </div>
         </div>
         
        
       </div>
+    </section>
+    <section className="h-screen bg-[#FEC97C] text-[#0A0A0A]">
+      <div className="w-[80%] h-screen lg:flex lg:flex-row relative mx-auto ">
+        <div className="flex flex-col gap-10 justify-center h-screen lg:w-1/2">
+          <h1 className="w-full  lg:text-6xl text-3xl font-bold uppercase text-left">Wo finden die Ausstellungen statt?</h1>
+          <span className=" text-2xl lg:text-3xl  uppercase">Derzeit werden wir ausschließlich von <p className="font-bold">Passage 13</p> unterstützt, die uns ihre</span>
+          <p className="text-2xl lg:text-3xl  uppercase">In Zukunft hoffen wir, auch von anderen ehrenamtlichen Organisationen Unterstützung zu erhalten, um unsere Ausstellungen an weiteren Orten oder sogar in anderen Städten durchführen zu können!</p>
+        </div>
+        <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penis.png" alt="" className="hidden lg:flex" /> </div>
+      </div>
+    </section>
+    <section className="h-screen flex  justify-center items-center" >
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2484.788329907859!2d11.919315876877697!3d51.48039951267527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a67d325e0153af%3A0x4ac4d32d5080c663!2sNeust%C3%A4dter%20Passage%2013!5e0!3m2!1sru!2sua!4v1749472252311!5m2!1sru!2sua"
+       width="80%" height="80%" 
+        loading="lazy" className="mx-auto align justify-center "></iframe>
+    </section>
+    <section className="min-h-screen">
+      <div className="w-[80%] mx-auto pb-10">
+        <div className="w-full ">
+          <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-6xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
+        </div>
+        <div className="text-center">
+          <h1 className="text-2xl w-full text-center font-bold pb-10 md:text-3xl">Die Ausstellung wird von der engagierten Freiwilligengruppe Caseus organisiert.</h1>
+        </div>
+        <div className="flex flex-row w-[80%] mx-auto">
+          <div className="flex flex-col 2xl:w-[75%]">
+            <div className="flex flex-col md:flex-row">
+               <img src="/images/casusus.png" alt="" className="p-15 max-w-[30vh] mx-auto object-contain" />
+             <span className="text-center m-auto md:text-left  md:text-lg"> <p className="font-bold uppercase md:text-xl ">Caseus Studio</p> Unser Schwerpunkt liegt im Bereich Video. Seit einem Jahr produzieren wir Filme, Interviews, 
+             soziale Kurzfilme, Fotoprojekte und mehr. Kürzlich haben wir uns erweitert und ein eigenes journalistisches Subprojekt gegründet: nezabuti.
+            </span>
+            </div>
+            <div className="flex  flex-col md:flex-row">
+               <img src="/images/nenenene.png" alt="" className=" p-15  max-w-[30vh] mx-auto md:mx-0" />
+              <span className="text-center mt-auto mb-auto md:text-left md:text-lg"> <p className="font-bold uppercase md:text-xl ">Nezabuti</p>  - beschäftigt sich mit Journalismus, dokumentiert verschiedenste Events und führt Interviews durch.
+              </span>
+            </div>
+          </div>
+          <div className="hidden lg:flex 2xl:w-[25%]">
+             <img src="/images/helloworld.png" alt="" className="object-contain" />
+          </div>
+        </div>
+       
+      </div>
+       
+       
+       
+       
+
     </section>
   </>
   );
