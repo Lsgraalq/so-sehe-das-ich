@@ -2,34 +2,49 @@
 import Image from "next/image";
 import Navbar from "../../components/navbar";
 import { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 gsap.registerPlugin(useGSAP); 
-
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
 
    const container = useRef(null);
 
-    useGSAP(() => {
-        
-        
+   useGSAP(() => {
+    // создаём smoother, если ещё не создавали
+    ScrollSmoother.create({
+      wrapper: "#wrapper",
+      content: "#content",
+      smooth: 1.2,
+      effects: true,
+      
     });
+
+    
+  }, []);
     
 
 
   return (
   <>
-  
-    <section className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat"
+   
+   <div id="smooth-wrapper">
+    <Navbar></Navbar>
+    <div id="smooth-content"
+    >
+    <section className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat" 
   style={{ backgroundImage: "url('/images/hero.png')" }}>
-      <Navbar></Navbar>
+     
       
     </section>
-    <section className="h-screen section-two relative ">
-      <img src="/images/sdvg.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] absolute left-5"/>
-      <div className="w-[75%] mx-auto flex flex-col justify-center h-screen ">
+    <section className="min-h-[200vh] section-two relative parent overflow-hidden"  >
+      <div className="" data-speed="2">
+      <img src="/images/sdvg.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] absolute left-5 md:top-40 top-10 child-parallax object-cover box"/>
+      <div className="w-[75%] mx-auto flex flex-col justify-center h-screen " >
         <h1 className="inline-block  text-4xl w-full text-center font-bold pb-20 md:text-5xl">
           SO SEHE DAS 
           <img src="/images/ich.png" alt="ICH" className="h-[1em] inline-block mb-2 ml-2"/>
@@ -37,9 +52,10 @@ export default function Home() {
         <p className="text-center text-lg leading-7.5 xl:leading-10 text-gray-200 md:text-2xl "> - ist eine offene Ausstellung, bei der wirklich jeder Künstlerin die Möglichkeit hat, seine Weltanschauung, seine Erfahrungen und seine Emotionen mit der Öffentlichkeit zu teilen. Jeder darf mitmachen - egal ob Schülerin oder Rentnerin, jede Stimme zählt, jeder hat das Recht auf Selbstausdruck!
         </p>
       </div>
-      <img src="/images/asd.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] bottom-10 right-5 absolute "/>
-    </section>
-    <section className="h-screen">
+      <img src="/images/asd.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] bottom-10 md:bottom-0 right-5 absolute child-parallax object-cover"/>
+    </div> 
+   </section>
+    <section className="min-[200vh]"  >
       <div className="relative h-screen">
         <img src="/images/ass.png" alt=""  className="absolute left-5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[8%] lg:left-20"/>
         <div className="w-[80%] lg:w-[60%] mx-auto ">
@@ -56,7 +72,7 @@ export default function Home() {
     
      
     </section>
-    <section className="h-screen ">
+    <section className="h-screen "  >
     <div className="relative h-screen w-full p-0 m-0">
     <div className="w-[80%] mx-auto ">
         <div className="flex flex-col w-[90%] gap-5  h-[80vh] justify-center lg:w-[70%]">
@@ -70,7 +86,7 @@ export default function Home() {
     <img src="/images/eyes.png" alt="" className="absolute z-[-1] top-100 right-80 xl:top-75 " />
    </div>
     </section>
-    <section className="min-h-screen w-[80%] mx-auto">
+    <section className="min-h-screen w-[80%] mx-auto"  >
       <div className="flex flex-col lg:flex-row gap-20 ">
        
           <img src="/images/people.png" alt="" className="lg:max-w-[50%] xl:max-w-[35%] md:max-w-[60%] max-w-[80%] mx-auto  2xl:px-10" />
@@ -89,7 +105,7 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <section className="h-screen bg-[#FEC97C]">
+    <section className="h-screen bg-[#FEC97C]"  >
       <div className="w-[80%] mx-auto">
         <div className="mx-auto w-full flex lg:flex-row flex-col justify-between px-10 lg:pb-10">
           <h1 className="text-[#0A0A0A] font-bold md:text-[23vh] text-[19vh] border-b-10 lg:border-b-0 mx-auto xl:text-[26vh] 2xl:text-[35vh]">14</h1>
@@ -114,7 +130,7 @@ export default function Home() {
        
       </div>
     </section>
-    <section className="h-screen bg-[#FEC97C] text-[#0A0A0A]">
+    <section className="h-screen bg-[#FEC97C] text-[#0A0A0A]"  >
       <div className="w-[80%] h-screen lg:flex lg:flex-row relative mx-auto ">
         <div className="flex flex-col gap-10 justify-center h-screen lg:w-1/2">
           <h1 className="w-full  lg:text-6xl text-3xl font-bold uppercase text-left">Wo finden die Ausstellungen statt?</h1>
@@ -124,12 +140,12 @@ export default function Home() {
         <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penis.png" alt="" className="hidden lg:flex" /> </div>
       </div>
     </section>
-    <section className="h-screen flex  justify-center items-center" >
+    <section className="h-screen flex  justify-center items-center"  >
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2484.788329907859!2d11.919315876877697!3d51.48039951267527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a67d325e0153af%3A0x4ac4d32d5080c663!2sNeust%C3%A4dter%20Passage%2013!5e0!3m2!1sru!2sua!4v1749472252311!5m2!1sru!2sua"
        width="80%" height="80%" 
         loading="lazy" className="mx-auto align justify-center "></iframe>
     </section>
-    <section className="min-h-screen">
+    <section className="min-h-screen"  >
       <div className="w-[80%] mx-auto pb-10">
         <div className="w-full ">
           <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-6xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
@@ -163,6 +179,8 @@ export default function Home() {
        
 
     </section>
+    </div>
+    </div>
   </>
   );
 }
