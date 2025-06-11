@@ -15,11 +15,12 @@ export default function Home() {
    const container = useRef(null);
 
    useGSAP(() => {
+    
     // создаём smoother, если ещё не создавали
     ScrollSmoother.create({
       wrapper: "#wrapper",
       content: "#content",
-      smooth: 1.2,
+      smooth: 2,
       effects: true,
       
     });
@@ -33,7 +34,7 @@ export default function Home() {
   <>
    
    <div id="smooth-wrapper">
-    <Navbar></Navbar>
+    
     <div id="smooth-content"
     >
     <section className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat" 
@@ -41,9 +42,9 @@ export default function Home() {
      
       
     </section>
-    <section className="min-h-[200vh] section-two relative parent overflow-hidden"  >
-      <div className="" data-speed="2">
-      <img src="/images/sdvg.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] absolute left-5 md:top-40 top-10 child-parallax object-cover box"/>
+    <section className="min-h-[100vh] section-two relative parent  "  >
+      
+      <img src="/images/sdvg.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] absolute left-5 md:top-20 top-10 child-parallax object-cover " />
       <div className="w-[75%] mx-auto flex flex-col justify-center h-screen " >
         <h1 className="inline-block  text-4xl w-full text-center font-bold pb-20 md:text-5xl">
           SO SEHE DAS 
@@ -52,10 +53,11 @@ export default function Home() {
         <p className="text-center text-lg leading-7.5 xl:leading-10 text-gray-200 md:text-2xl "> - ist eine offene Ausstellung, bei der wirklich jeder Künstlerin die Möglichkeit hat, seine Weltanschauung, seine Erfahrungen und seine Emotionen mit der Öffentlichkeit zu teilen. Jeder darf mitmachen - egal ob Schülerin oder Rentnerin, jede Stimme zählt, jeder hat das Recht auf Selbstausdruck!
         </p>
       </div>
-      <img src="/images/asd.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] bottom-10 md:bottom-0 right-5 absolute child-parallax object-cover"/>
-    </div> 
+      <img src="/images/asd.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] bottom-10 md:bottom-0 right-5 absolute child-parallax object-cover" />
+   
    </section>
-    <section className="min-[200vh]"  >
+    <section className="min-[100vh]  pb-5"  >
+       
       <div className="relative h-screen">
         <img src="/images/ass.png" alt=""  className="absolute left-5 w-[20%] sm:w-[15%] md:w-[12%] lg:w-[8%] lg:left-20"/>
         <div className="w-[80%] lg:w-[60%] mx-auto ">
@@ -69,10 +71,12 @@ export default function Home() {
         <img src="/images/tsp.png" alt="" className="absolute sm:w-[80%] right-0 md:w-[60%] lg:w-[50%] bottom-30 z-[-1]"/>
       </div>
       
+      
     
      
     </section>
-    <section className="h-screen "  >
+    <section className=" min-h-[100vh]  "  >
+      
     <div className="relative h-screen w-full p-0 m-0">
     <div className="w-[80%] mx-auto ">
         <div className="flex flex-col w-[90%] gap-5  h-[80vh] justify-center lg:w-[70%]">
@@ -85,6 +89,7 @@ export default function Home() {
     <img src="/images/pinis.png" alt="" className="absolute z-[-1] top-20  right-10 w-[30%] md:w-[20%] xl:w-[10%] " />
     <img src="/images/eyes.png" alt="" className="absolute z-[-1] top-100 right-80 xl:top-75 " />
    </div>
+   
     </section>
     <section className="min-h-screen w-[80%] mx-auto"  >
       <div className="flex flex-col lg:flex-row gap-20 ">
@@ -181,6 +186,7 @@ export default function Home() {
     </section>
     </div>
     </div>
+    <Navbar></Navbar>
   </>
   );
 }

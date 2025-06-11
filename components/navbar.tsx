@@ -25,7 +25,7 @@ export default function Navbar ({ visible = true }: { visible?: boolean }) {
 
     return (
     
-    <div className="fixed w-full h-18 shadow-xl z-[1] bg-[#0A0A0A]">
+    <div className="fixed w-full top-0 h-18 shadow-xl z-[1] bg-[#0A0A0A]">
         <div className="flex justify-between items-center h-full w-full  contaner md:px-20 px-8">
             <Link href={'/'}>
             <div className=" uppercase xl:text-xl sm:text-base ">
