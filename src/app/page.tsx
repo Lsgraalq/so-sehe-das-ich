@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import {db, } from "../../firebase/clientApp"
+
 
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
