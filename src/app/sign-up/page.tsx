@@ -28,7 +28,7 @@ export default function signUpPage() {
   //       console.log(user);
   //       showApp();
   //       showLoginState(user)
-  //     }
+  //     }a
   //   })
   // }
 
