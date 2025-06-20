@@ -44,7 +44,7 @@ export default function Navbar ({ visible = true }: { visible?: boolean }) {
                                 KunstHUB
                         </li>
                     </Link>
-                     <Link href={'/kontakt'}>
+                     <Link href={'/sign-in'}>
                         <li className=" uppercase hover:border-b xl:text-xl text-white  sm:text-base  Libre_wide">
                                Register
                         </li>
