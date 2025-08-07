@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
 
-   const container = useRef(null);
+
 
    useGSAP(() => {
     

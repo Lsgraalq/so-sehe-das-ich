@@ -1,17 +1,13 @@
 "use client";
 import React from "react";
-import { Inter} from "next/font/google";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react"
 
-const Libre_wide = Inter({
-  weight: '600',
-  subsets: ["latin"],
-});
 
 
-export default function Navbar ({ visible = true }: { visible?: boolean }) {
+
+export default function Navbar () {
    
     
     const  [menuOpen, setMenuOpen] = useState(false)
