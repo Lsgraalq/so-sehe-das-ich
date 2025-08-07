@@ -1,12 +1,12 @@
 // src/components/LoginPage.tsx
 "use client"
 import React, { useState } from 'react';
-import {createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import {createUserWithEmailAndPassword } from "firebase/auth"
 import {auth} from "@/app/firebase/config"
 import { useRouter } from 'next/navigation';
 
 
-export default function signUpPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();

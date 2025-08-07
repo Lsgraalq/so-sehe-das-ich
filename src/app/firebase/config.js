@@ -2,8 +2,8 @@ import firebase, { getApps, getApp } from "firebase/app";
 import "firebase/auth"
 import "firebase/firestore"
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, connectAuthEmulator } from "firebase/auth"
-import { getFirestore, collection, getDoc, getDocs, initializeFirestore, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
+import { getAuth} from "firebase/auth"
+
 
 const firebaseApp = initializeApp({
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image";
 import Navbar from "../../components/navbar";
 import { useRef } from 'react';
 import { useGSAP } from "@gsap/react";
