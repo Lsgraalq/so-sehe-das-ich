@@ -17,13 +17,7 @@ export default function Home() {
    useGSAP(() => {
     
     // создаём smoother, если ещё не создавали
-    ScrollSmoother.create({
-      wrapper: "#wrapper",
-      content: "#content",
-      smooth: 2,
-      effects: true,
-      
-    });
+   
 
     
   }, []);
