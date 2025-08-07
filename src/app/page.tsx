@@ -11,11 +11,6 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
   const lenisRef = useRef<any>(null);
-   const lenis = useLenis((lenis) => {
-    // called every scroll
-    console.log(lenis)
-  })
-
 
    useGSAP(() => {
     
