@@ -4,12 +4,17 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-
+import { ReactLenis, useLenis } from 'lenis/react'
+import { useRef } from "react";
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
-
+  const lenisRef = useRef<any>(null);
+   const lenis = useLenis((lenis) => {
+    // called every scroll
+    console.log(lenis)
+  })
 
 
    useGSAP(() => {
@@ -24,7 +29,18 @@ export default function Home() {
 
   return (
   <>
-   
+    <ReactLenis
+  root
+  options={{
+    anchors: true,
+    duration: 1.5,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 0.7, 
+    smoothWheel: true,
+    autoRaf: true,
+  }}
+  ref={lenisRef}
+>
    <div id="smooth-wrapper">
     
     <div id="smooth-content"
@@ -179,6 +195,7 @@ export default function Home() {
     </div>
     </div>
     <Navbar></Navbar>
+     </ReactLenis>
   </>
   );
 }
