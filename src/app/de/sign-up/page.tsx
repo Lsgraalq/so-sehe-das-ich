@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import { setDoc, doc, serverTimestamp } from "firebase/firestore"
 import { auth, db } from "@/app/firebase/config"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -42,7 +43,7 @@ export default function SignUpPage() {
         createdAt: serverTimestamp(),
       })
 
-      router.push("/profile/" + username)
+      router.push("/de/profile/" + username)
     } catch (error: any) {
       console.log("Ошибка при регистрации:", error)
       setErrorMsg(error.message || "Неизвестная ошибка при регистрации.")
@@ -66,7 +67,7 @@ export default function SignUpPage() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Пароль */}
@@ -76,7 +77,7 @@ export default function SignUpPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Пароль"
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Username */}
@@ -86,7 +87,7 @@ export default function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Имя пользователя"
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Имя */}
@@ -96,7 +97,7 @@ export default function SignUpPage() {
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="Имя"
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Фамилия */}
@@ -106,7 +107,7 @@ export default function SignUpPage() {
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Фамилия"
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Описание */}
@@ -114,7 +115,7 @@ export default function SignUpPage() {
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             placeholder="O себе"
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Дата рождения */}
@@ -123,7 +124,7 @@ export default function SignUpPage() {
             value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
             required
-            className="w-full px-4 py-2 rounded-xl"
+            className="w-full px-4 py-2 text-black rounded-xl"
           />
 
           {/* Я художник */}
@@ -168,6 +169,7 @@ export default function SignUpPage() {
             Зарегистрироваться
           </button>
         </form>
+        <a href="/de/sign-in" className="text-blue-600 text-lg underline">Уже есть аккаунт?</a>
       </div>
     </div>
   )
