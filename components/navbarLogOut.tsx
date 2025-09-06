@@ -4,7 +4,7 @@ import Link from "next/link"
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "../src/app/firebase/config"
-
+import { SignOutHook } from "react-firebase-hooks/auth"
 
 export default function Navbar() {
   const [user] = useAuthState(auth)
