@@ -2,7 +2,7 @@
 "use client"
 import React, { useState } from 'react';
 import {signInWithEmailAndPassword} from "firebase/auth"
-import {auth} from "@/app/firebase/config"
+import {auth} from "@/firebase/config"
 import { useRouter } from 'next/navigation';
 
 

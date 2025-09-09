@@ -4,7 +4,7 @@
 import React, { useState } from "react"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { setDoc, doc, serverTimestamp } from "firebase/firestore"
-import { auth, db } from "@/app/firebase/config"
+import { auth, db } from "@/firebase/config"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -43,7 +43,7 @@ export default function SignUpPage() {
         createdAt: serverTimestamp(),
       })
 
-      router.push("/de/profile/" + username)
+      router.push("/de/profile/" )
     } catch (error: any) {
       console.log("Ошибка при регистрации:", error)
       setErrorMsg(error.message || "Неизвестная ошибка при регистрации.")

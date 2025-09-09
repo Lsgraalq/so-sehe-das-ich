@@ -4,14 +4,13 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { collection, getDocs, query, where } from "firebase/firestore"
-import { db } from "@/app/firebase/config"
-import Navbar from "../../../../../components/navbarDe"
+import { db } from "@/firebase/config"
+import Navbar from "@/components/navbarDe"
 
 
 
 export default function AuthorProfilePage() {
   const { username } = useParams() as { username: string }
-
   const [userData, setUserData] = useState<any>(null)
   const [artworks, setArtworks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)

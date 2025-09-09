@@ -1,5 +1,5 @@
 // lib/auth-actions.ts
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 
 export async function logout() {

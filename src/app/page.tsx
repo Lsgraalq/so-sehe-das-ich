@@ -1,5 +1,5 @@
 "use client"
-import Navbar from "../../components/navbarDe";
+import Navbar from "@/components/navbarDe";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
