@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ReactLenis } from 'lenis/react'
 import { useRef } from "react";
-
+import FooterDe from "@/components/footerDe";
 
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -193,6 +193,9 @@ export default function Home() {
     </div>
     </div>
     <Navbar></Navbar>
+     <FooterDe></FooterDe>
+    
+    
      </ReactLenis>
   </>
   );

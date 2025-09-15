@@ -10,8 +10,10 @@ export default function Navbar() {
   const [user] = useAuthState(auth)
   const [userData, setUserData] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [langMenuOpen, setLangMenuOpen] = useState(false)
 
   const handleNav = () => setMenuOpen(!menuOpen)
+  const langHandleNav = () => setLangMenuOpen(!langMenuOpen)
 
   // Загружаем username, если пользователь авторизован
   useEffect(() => {
@@ -53,7 +55,18 @@ export default function Navbar() {
                 </li>
             </Link>
             )}
+            
+                <li className="hover:cursor-pointer" onClick={langHandleNav}>
+                  <img src="/images/gear.png" alt="" className="w-7" />
+                </li>
+                <div  className={
+            menuOpen
+              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
+              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
+          }>
 
+                </div>
+            
           </ul>
         </div>
 
