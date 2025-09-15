@@ -18,7 +18,7 @@ export default function LoginPage() {
     try {
     const userCredentials = await signInWithEmailAndPassword(auth,email,password);
     console.log(userCredentials.user);
-    router.push("/")
+    router.push("/de/profile")
       }  catch(error: any) {
         console.log(error);
         setErrorMsg(error.message || "Неизвестная ошибка при регистрации.")
@@ -72,6 +72,7 @@ export default function LoginPage() {
             Войти
           </button>
         </form>
+        <a href="/de/sign-up" className="pt-5 text-blue-400">dont have account?</a>
       </div>
     </div>
   );

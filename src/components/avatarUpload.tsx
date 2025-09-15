@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { storage, db } from "@/firebase/config";
 
 interface AvatarUploaderProps {
@@ -26,7 +26,7 @@ export default function AvatarUploader({ userId, onUpload }: AvatarUploaderProps
     const storageRef = ref(storage, `avatars/${userId}`);
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
-    await setDoc(doc(db, "users", userId), { avatarUrl: url });
+    await updateDoc(doc(db, "users", userId), { avatarUrl: url });
     onUpload(url); 
     setLoading(false);
   };
