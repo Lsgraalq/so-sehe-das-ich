@@ -22,14 +22,20 @@ export default function SignUpPage() {
   const [isArtist, setIsArtist] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const usernameRegex = /^[a-zA-Z0-9_]+$/
+
 
 
   const registrateEmailPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!acceptedTerms) return
-
+    if (!usernameRegex.test(username) ) {
+    setErrorMsg("Имя пользователя может содержать только латинские буквы, цифры и _")
+    return
+  }
     try {
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+      
       const user = userCredentials.user
 
       await setDoc(doc(db, "users", user.uid), {

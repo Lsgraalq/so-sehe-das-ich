@@ -12,6 +12,12 @@ const canvasOptions = [
   "Polymer Clay", "Keramik", "Leder", "Glas"
 ];
 
+const exhibitionOptions = [
+  "29.10.2025"
+];
+
+
+
 const paintOptions = [
   "Ölfarben", "Acrylfarben", "Gouachefarben", "Aquarellfarben", "Tusche",
   "Enkaustik", "Sprühfarben", "Kaseinfarben", "Lackfarben", "Alkydfarben",
@@ -21,8 +27,9 @@ const paintOptions = [
 export default function AddArtPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [exhibition, setExhibition] = useState("");
+  const [exhibition, setExhibitionDate] = useState("");
   const [canvasType, setCanvasType] = useState("");
+  const [status, setStatus] = useState("");
   const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
   const [height, setHeight] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
@@ -62,6 +69,7 @@ export default function AddArtPage() {
         price,
         forSale,
         imageUrl,
+        // status,
         createdAt: Timestamp.now()
       });
 
@@ -69,7 +77,7 @@ export default function AddArtPage() {
       // Очистка формы
       setTitle("");
       setDescription("");
-      setExhibition("");
+      setExhibitionDate("");
       setCanvasType("");
       setSelectedPaints([]);
       setHeight(0);
@@ -105,14 +113,19 @@ export default function AddArtPage() {
           className="w-full p-2 border rounded"
           required
         />
-
-        <input
-          type="text"
-          placeholder="Выставка"
-          value={exhibition}
-          onChange={e => setExhibition(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
+        <label className="font-semibold">Выставка</label>
+        <select
+            value={exhibition}
+            onChange={e => setExhibitionDate(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          >
+            <option value="">Выберите тип</option>
+            {exhibitionOptions.map(c => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        
 
         <div>
           <label className="font-semibold">Тип холста:</label>

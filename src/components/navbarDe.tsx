@@ -36,7 +36,7 @@ export default function Navbar() {
                 Ausstellungen
               </li>
             </Link>
-            <Link href={"/de/services"}>
+            <Link href={"/de/gallery"}>
               <li className="uppercase hover:border-b xl:text-xl text-white sm:text-base Libre_wide">
                 KunstHUB
               </li>

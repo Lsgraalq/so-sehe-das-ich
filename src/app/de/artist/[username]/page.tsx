@@ -10,47 +10,54 @@ import Navbar from "@/components/navbarDe"
 
 
 export default function AuthorProfilePage() {
-  const { username } = useParams() as { username: string }
   const [userData, setUserData] = useState<any>(null)
   const [artworks, setArtworks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const params = useParams()
+  const username = Array.isArray(params.username) ? params.username[0] : params.username
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Получаем пользователя по username
-        const q = query(collection(db, "users"), where("username", "==", username))
-        const userSnap = await getDocs(q)
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const q = query(
+        collection(db, "users"),
+        where("username", "==", username)
+      )
+      const userSnap = await getDocs(q)
 
-        if (!userSnap.empty) {
-          const docData = userSnap.docs[0]
-          const data = docData.data()
-          const userId = docData.id
-
-          setUserData(data)
-
-          // Если это художник — подгружаем картины
-          if (data.isArtist) {
-            const artworksQuery = query(
-              collection(db, "artworks"),
-              where("authorId", "==", userId)
-            )
-            const artSnap = await getDocs(artworksQuery)
-            const arts = artSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-            setArtworks(arts)
-          }
-        } else {
-          setUserData(null)
-        }
-      } catch (error) {
-        console.error("Ошибка при загрузке профиля:", error)
-      } finally {
-        setLoading(false)
+      if (userSnap.empty) {
+        console.log("Пользователь не найден:", username)
+        setUserData(null)
+        return
       }
-    }
 
-    fetchData()
-  }, [username])
+      const docData = userSnap.docs[0]
+      const data = docData.data()
+      const userId = docData.id
+
+      console.log("Нашёл пользователя:", data)
+
+      setUserData(data)
+
+      if (data.isArtist) {
+        const artworksQuery = query(
+          collection(db, "arts"), 
+          where("authorId", "==", userId)
+        )
+        const artSnap = await getDocs(artworksQuery)
+        const arts = artSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        setArtworks(arts)
+      }
+    } catch (err) {
+      console.error("Ошибка при загрузке профиля:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  fetchData()
+}, [username])
+
 
   if (loading) return <p className="text-center mt-10 text-gray-500">Загрузка профиля...</p>
   if (!userData) return <p className="text-center mt-10 text-red-500">Пользователь не найден</p>
