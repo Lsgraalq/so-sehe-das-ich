@@ -7,6 +7,7 @@ export type Art = {
   title: string;
   description?: string;
   authorId: string;
+  authorUsername: string;
   imageUrl: string;
   price?: number;
   height?: number;

@@ -41,7 +41,7 @@ async function  ArtPage({ params }: Props) {
     <Navbar></Navbar>           
     <div className="pt-25 flex flex-col gap-10">
         <div className="max-w-[80%]  md:max-w-[70%] xl:max-w-[60%]  mx-auto  relative">
-            <div className="flex absolute bg-[#E35A5A] md:w-60 md:h-15  end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
+            <div className="flex absolute bg-[#E35A5A] md:w-60 md:h-10  end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
                 <p className="flex mx-auto items-center md:text-xl xl:text-2xl italic">Status</p>
             </div>
             <img src="/images/artinfomazok2.png" alt=" mazok" className='absolute left-[-20]  top-[-15] max-w-[15%] md:left-[-40] md:top-[-40] xl:max-w-[15%] xl:top-[-30] xl:left-[-70]' />

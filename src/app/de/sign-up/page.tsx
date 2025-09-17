@@ -17,6 +17,7 @@ export default function SignUpPage() {
   const [username, setUsername] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
+  const [avatarUrl, setAvatarUrl] = useState("https://firebasestorage.googleapis.com/v0/b/so-sehe-das-ich.firebasestorage.app/o/avatars%2Fporabote.jpg?alt=media&token=a0ddf113-d253-408e-96ed-15c8b4b89cf8")
   const [bio, setBio] = useState("")
   const [birthDate, setBirthDate] = useState("")
   const [isArtist, setIsArtist] = useState(false)
@@ -37,12 +38,13 @@ export default function SignUpPage() {
       const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
       
       const user = userCredentials.user
-
+      
       await setDoc(doc(db, "users", user.uid), {
         email,
         username,
         firstName,
         lastName,
+        avatarUrl,
         bio,
         birthDate,
         isArtist,

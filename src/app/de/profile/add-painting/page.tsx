@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { db, storage, auth } from "@/firebase/config";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { db, storage, auth, } from "@/firebase/config";
+import { collection, addDoc, Timestamp, doc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { User } from "firebase/auth";
+import FooterDe from "@/components/footerDe";
+import Navbar from "@/components/navbarDe";
+
 
 const canvasOptions = [
   "Leinwand", "Papier", "Karton", "Stoff", "Holz", "Gips",
@@ -24,12 +28,24 @@ const paintOptions = [
   "Freskotechnik", "Airbrushfarben"
 ];
 
+interface UserProfile {
+  userUid : string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  bio?: string;
+  username: string;
+  isArtist: boolean;
+  avatarUrl?: string;
+}
+
 export default function AddArtPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [exhibition, setExhibitionDate] = useState("");
   const [canvasType, setCanvasType] = useState("");
   const [status, setStatus] = useState("");
+  const [authorUsername, setAuthorUsername] = useState("");
   const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
   const [height, setHeight] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
@@ -37,6 +53,9 @@ export default function AddArtPage() {
   const [forSale, setForSale] = useState(true);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserProfile | null>(null);
 
   const handlePaintToggle = (paint: string) => {
     setSelectedPaints(prev =>
@@ -56,12 +75,24 @@ export default function AddArtPage() {
       await uploadBytes(imageRef, imageFile);
       const imageUrl = await getDownloadURL(imageRef);
 
+
+      let username = "";
+      if (auth.currentUser) {
+              const snap = await getDoc(doc(db, "users", auth.currentUser.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        console.log(data.username)
+        username = data.username ?? "";
+      }
+                  }
+
       // Добавление документа в Firestore
       await addDoc(collection(db, "arts"), {
         title,
         description,
         exhibition,
         authorId: auth.currentUser.uid,
+        authorUsername: username,
         canvasType,
         paints: selectedPaints,
         height,
@@ -93,7 +124,9 @@ export default function AddArtPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4 text-black">
+    <>
+    <Navbar></Navbar>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4 text-black pt-20">
       <h1 className="text-2xl font-bold">Добавить картину</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -216,5 +249,7 @@ export default function AddArtPage() {
         </button>
       </form>
     </div>
+    <FooterDe></FooterDe>
+  </>
   );
 }

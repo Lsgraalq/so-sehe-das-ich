@@ -6,7 +6,7 @@ export async function logout() {
   try {
     await signOut(auth);
     // например, редирект на /login:
-    window.location.href = "de/sign-in";
+    window.location.href = "/de/sign-in";
   } catch (e) {
     console.error(e);
     alert("Error! Try again");

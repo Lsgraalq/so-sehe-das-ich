@@ -8,6 +8,8 @@ import AvatarUploader from "@/components/avatarUpload";
 import { IoMdAdd } from "react-icons/io";
 import { logout } from "@/utils/logOutDe";
 import { useRouter } from "next/navigation";
+import Navbar from "@/components/navbarDe";
+import FooterDe from "@/components/footerDe";
 
 
 interface UserProfile {
@@ -72,7 +74,9 @@ export default function ProfilePage() {
 
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md ">
+    <>
+    <Navbar></Navbar>
+    <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20">
       <img src={userData.avatarUrl} alt="" />
       <AvatarUploader
         userId={userData.userUid || ""}
@@ -90,5 +94,7 @@ export default function ProfilePage() {
       <p><b>О Себе:</b> {userData.bio}</p>
       <p><a href="" className="" onClick={logout}>Log out</a></p>
     </div>
+    <FooterDe></FooterDe>
+  </>
   );
 } 

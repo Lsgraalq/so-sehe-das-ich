@@ -1,127 +1,147 @@
-// app/profile/[username]/page.tsx
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import { collection, getDocs, query, where } from "firebase/firestore"
-import { db } from "@/firebase/config"
-import Navbar from "@/components/navbarDe"
-
-
-
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import Navbar from "@/components/navbarDe";
+import FooterDe from "@/components/footerDe";
 export default function AuthorProfilePage() {
-  const [userData, setUserData] = useState<any>(null)
-  const [artworks, setArtworks] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const params = useParams()
-  const username = Array.isArray(params.username) ? params.username[0] : params.username
+  const [userData, setUserData] = useState<any>(null);
+  const [artworks, setArtworks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const username = Array.isArray(params.username) ? params.username[0] : params.username;
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const q = query(
-        collection(db, "users"),
-        where("username", "==", username)
-      )
-      const userSnap = await getDocs(q)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const q = query(collection(db, "users"), where("username", "==", username));
+        const userSnap = await getDocs(q);
 
-      if (userSnap.empty) {
-        console.log("Пользователь не найден:", username)
-        setUserData(null)
-        return
+        if (userSnap.empty) {
+          console.log("Пользователь не найден:", username);
+          setUserData(null);
+          return;
+        }
+
+        const docData = userSnap.docs[0];
+        const data = docData.data();
+        const userId = docData.id;
+        setUserData({ ...data, id: userId });
+
+        if (data.isArtist) {
+          const artworksQuery = query(collection(db, "arts"), where("authorId", "==", userId));
+          const artSnap = await getDocs(artworksQuery);
+          const arts = artSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setArtworks(arts);
+        }
+      } catch (err) {
+        console.error("Ошибка при загрузке профиля:", err);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const docData = userSnap.docs[0]
-      const data = docData.data()
-      const userId = docData.id
+    fetchData();
+  }, [username]);
 
-      console.log("Нашёл пользователя:", data)
+  if (loading)
+    return <p className="text-center mt-10 text-gray-500">Загрузка профиля...</p>;
+  if (!userData)
+    return <p className="text-center mt-10 text-red-500">Пользователь не найден</p>;
 
-      setUserData(data)
-
-      if (data.isArtist) {
-        const artworksQuery = query(
-          collection(db, "arts"), 
-          where("authorId", "==", userId)
-        )
-        const artSnap = await getDocs(artworksQuery)
-        const arts = artSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        setArtworks(arts)
-      }
-    } catch (err) {
-      console.error("Ошибка при загрузке профиля:", err)
-    } finally {
-      setLoading(false)
-    }
+  // Форматируем дату в немецкий формат
+  const createdAtTimestamp = userData.createdAt;
+  let formattedDate = "";
+  if (createdAtTimestamp?.toDate) {
+    const date = createdAtTimestamp.toDate();
+    formattedDate = date.toLocaleString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } else if (createdAtTimestamp) {
+    const date = new Date(createdAtTimestamp);
+    formattedDate = date.toLocaleString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   }
-
-  fetchData()
-}, [username])
-
-
-  if (loading) return <p className="text-center mt-10 text-gray-500">Загрузка профиля...</p>
-  if (!userData) return <p className="text-center mt-10 text-red-500">Пользователь не найден</p>
 
   return (
     <>
-    <Navbar></Navbar>
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 p-6 md:p-12 ">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8 md:p-12">
-        {/* Аватар и имя */}
-        <div className="flex flex-col items-center gap-4 text-center">
-          <img
-            src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userData.username}`}
-            alt="avatar"
-            className="w-28 h-28 rounded-full shadow-md"
-          />
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              {userData.firstName} {userData.lastName}
-            </h1>
-            <p className="text-sm text-gray-500">@{userData.username}</p>
-          </div>
-          <p className="text-gray-600 max-w-xl">{userData.bio || "Описание отсутствует."}</p>
-          {userData.createdAt && (
-            <p className="text-sm text-gray-400">
-              Аккаунт создан:{" "}
-              {new Date(userData.createdAt.seconds * 1000).toLocaleDateString("ru-RU")}
-            </p>
-          )}
+      <Navbar />
+      <div className="md:flex hidden  bg-[url('/images/artistpanel.png')] w-[80%] h-100 rounded-3xl bg-cover mx-auto bg-center mt-50">
+          <img src={userData.avatarUrl} alt="AVatar" className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-45/100 w-64 rounded-full "/> 
+        <div className="w-full grid grid-cols-3 grid-rows-2 gap-6">
+          <div className=" p-4 text-center">Участник с {formattedDate}</div>
+          <div className=" p-4 text-center"></div>
+          <div className=" p-4 text-center"></div>
+          <div className=" p-10 text-center">Выставки: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
+          <div className=" text-center flex flex-col gap-2">
+            <h2 className="text-4xl font-bold">{userData.username}</h2>
+            <h3 className="text-center mx-auto flex text-lg">{userData.firstName} {userData.lastName}</h3>
+            <img src="/images/artistvector.png" alt="Errror" className="mt-3"/>
+            </div>
+          <div className=" p-10 text-center kolvo rabot">Количество работ: <br /> {artworks.length}</div>
         </div>
+      </div>
+      <div className="flex md:hidden  bg-[url('/images/authorpanelSmall.png')] w-[330px] h-[220px] rounded-3xl bg-cover mx-auto bg-center mt-27">
+          <img src={userData.avatarUrl} alt="AVatar" className="absolute  left-1/2 transform -translate-x-49/100 -translate-y-25/100 w-32 rounded-full "/> 
+        <div className="w-full grid grid-cols-3 grid-rows-2 gap-6">
+          <div className=" p-4 text-center">Участник с {formattedDate}</div>
+          <div className=" p-4 text-center"></div>
+          <div className=" p-4 text-center"></div>
+          <div className=" p-10 text-center">Выставки: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
+          <div className=" text-center flex flex-col gap-2">
+            <h2 className="text-xl font-bold">{userData.username}</h2>
+            <h3 className="text-center mx-auto flex text-sm">{userData.firstName} {userData.lastName}</h3>
+            <img src="/images/artistvector.png" alt="Errror" className="mt-3"/>
+            </div>
+          <div className=" p-10 text-center kolvo rabot">Количество работ: <br /> {artworks.length}</div>
+        </div>
+      </div>
 
-        {/* Галерея */}
+      <div className="max-w-6xl mx-auto mt-10 px-4">
         {userData.isArtist && (
-          <div className="mt-10">
+          <>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Картины</h2>
             {artworks.length === 0 ? (
-              <p className="text-gray-500 text-sm">Пока что нет ни одной опубликованной картины.</p>
+              <p className="text-gray-500 text-sm">
+                Пока что нет ни одной опубликованной картины.
+              </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {artworks.map(art => (
-                  <div
-                    key={art.id}
-                    className="bg-gray-50 p-3 rounded-xl shadow hover:shadow-md transition"
-                  >
-                    <img
-                      src={art.imageUrl || "/placeholder.jpg"}
-                      alt={art.title}
-                      className="w-full h-48 object-cover rounded-lg mb-2"
-                    />
-                    <h3 className="text-md font-semibold text-gray-800">{art.title}</h3>
-                    <p className="text-sm text-gray-500">
-                      {art.description?.slice(0, 60) || "Без описания"}
-                    </p>
-                    {art.isForSale && (
-                      <p className="text-blue-600 font-bold mt-1">{art.price} €</p>
-                    )}
-                  </div>
+                   <a
+          href={'/de/gallery/arts/' + art.id}
+          key={art.id}
+          className="rounded-sm overflow-hidden"
+        >
+          <img
+            src={art.imageUrl}
+            alt={art.title}
+            className="w-full h-64 object-cover"
+          />
+          <div className="pt-4 pl-0.5">
+            <h2 className="text-lg font-semibold">{art.title}</h2>
+            <p className="text-gray-600 mt-2">{art.height}см х {art.width}см</p>
+            <p className="text-gray-600">Author: {art.authorUsername}</p>
+          </div>
+        </a>
                 ))}
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
-    </div>
+      <FooterDe></FooterDe>
     </>
-  )
+  );
 }
