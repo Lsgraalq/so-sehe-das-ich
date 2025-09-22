@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth} from "@/firebase/config"
 import { useRouter } from 'next/navigation';
-
+import Navbar from '@/components/navbarDe';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -26,9 +26,11 @@ export default function LoginPage() {
    }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center p-4">
+    <>
+    <Navbar></Navbar>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center p-4 pt-20">
       <div className="backdrop-blur-xl bg-white/40 border border-white/30 rounded-2xl shadow-2xl p-10 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">захади не боись</h2>
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Log in</h2>
         {errorMsg && (
   <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-300 rounded-xl text-sm">
     {errorMsg}
@@ -75,5 +77,6 @@ export default function LoginPage() {
         <a href="/de/sign-up" className="pt-5 text-blue-400">dont have account?</a>
       </div>
     </div>
+    </>
   );
 }

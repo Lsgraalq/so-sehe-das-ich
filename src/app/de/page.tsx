@@ -8,6 +8,7 @@ import { ReactLenis } from 'lenis/react'
 import { useRef } from "react";
 import FooterDe from "@/components/footerDe";
 
+
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -27,6 +28,7 @@ export default function Home() {
 
   return (
   <>
+  
     <ReactLenis
   root
   options={{

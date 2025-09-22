@@ -7,6 +7,8 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore"
 import { auth, db } from "@/firebase/config"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Navbar from "@/components/navbarDe"
+
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -59,7 +61,10 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center p-4">
+    <>
+    <Navbar></Navbar>
+    
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center p-4 pt-20">
       <div className="backdrop-blur-xl bg-white/40 border border-white/30 rounded-2xl shadow-2xl p-10 w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Регистрация</h2>
         {errorMsg && (
@@ -180,5 +185,6 @@ export default function SignUpPage() {
         <a href="/de/sign-in" className="text-blue-600 text-lg underline">Уже есть аккаунт?</a>
       </div>
     </div>
+    </>
   )
 }

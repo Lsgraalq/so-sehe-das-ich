@@ -98,7 +98,7 @@ export default function ProfilePage() {
 
   if (!user ) {
     router.push("/de/sign-in");
-    return <p>redicting</p>;
+    return <p>redirecting</p>;
   }
 
   if (!userData) return <p>loading...</p>;
@@ -166,8 +166,13 @@ export default function ProfilePage() {
         </div>
       </div>
 {/* menu */}
-    <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20">
-
+    <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20 flex flex-row gap-5">
+      <button
+      onClick={logout}
+      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+    >
+      Log out
+    </button>
       <a href="profile/add-painting" className="w-60 h-15  bg-gradient-to-r from-[#ff99fa] to-[#f429ff] rounded flex justify-center  items-center">
          
          <div className=" flex  justify-center"> Add new painting</div>
