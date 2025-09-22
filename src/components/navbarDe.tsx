@@ -31,7 +31,7 @@ export default function Navbar() {
 
         <div className="hidden lg:flex">
           <ul className="hidden lg:flex gap-20">
-            <Link href={"/de/"}>
+            <Link href={"/de/ausstellungen"}>
               <li className="uppercase hover:border-b xl:text-xl sm:text-base text-white Libre_wide">
                 Ausstellungen
               </li>
@@ -89,7 +89,7 @@ export default function Navbar() {
 
   <div className="flex-col py-4">
     <ul className="flex flex-col gap-4 text-white">
-      <Link href={"/de/"}>
+      <Link href={"/de/ausstellungen"}>
         <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
           Ausstellungen
         </li>

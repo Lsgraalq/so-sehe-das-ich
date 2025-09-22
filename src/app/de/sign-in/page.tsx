@@ -5,6 +5,7 @@ import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth} from "@/firebase/config"
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbarDe';
+import FooterDe from '@/components/footerDe';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -21,62 +22,73 @@ export default function LoginPage() {
     router.push("/de/profile")
       }  catch(error: any) {
         console.log(error);
-        setErrorMsg(error.message || "Неизвестная ошибка при регистрации.")
+        setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")
       }
    }
 
   return (
     <>
     <Navbar></Navbar>
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center p-4 pt-20">
-      <div className="backdrop-blur-xl bg-white/40 border border-white/30 rounded-2xl shadow-2xl p-10 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Log in</h2>
-        {errorMsg && (
-  <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-300 rounded-xl text-sm">
-    {errorMsg}
-  </div>
-)}
-    
-        <form  onSubmit={loginEmailPassword} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 w-full px-4 py-2 text-black bg-white/60 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Пароль
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 w-full px-4 py-2 text-black bg-white/60 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            
-            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg"
-          >
-            Войти
-          </button>
-        </form>
-        <a href="/de/sign-up" className="pt-5 text-blue-400">dont have account?</a>
-      </div>
+    <div className="min-h-screen bg-[url('/images/auth_bg.png')] bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 pt-20">
+      <div className="w-full max-w-md mx-auto">
+  <h2 className="text-3xl font-bold text-center mb-8">Anmelden</h2>
+  
+  {errorMsg && (
+    <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-300 rounded text-sm">
+      {errorMsg}
     </div>
+  )}
+
+  <form onSubmit={loginEmailPassword} className="space-y-6">
+    <div className="relative z-0 w-full mb-5 group">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        id="floating_email"
+        className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        htmlFor="floating_email"
+        className="peer-focus:font-medium absolute text-sm text-orange-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        E-Mail
+      </label>
+    </div>
+
+    <div className="relative z-0 w-full mb-5 group">
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        id="floating_password"
+        className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-500 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        htmlFor="floating_password"
+        className="peer-focus:font-medium absolute text-sm text-orange-300 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-white peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Passwort
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      className="w-full py-2 px-4 bg-gradient-to-r from-[#FEC97C] to-[#E35A5A]  text-white font-semibold rounded transition-all"
+    >
+      Anmelden
+    </button>
+  </form>
+
+  <a href="/de/sign-up" className="block pt-5 text-blue-400 text-center hover:underline hover:cursor-pointer">Noch kein Konto?</a>
+</div>
+
+    </div>
+    <FooterDe></FooterDe>
     </>
   );
 }
