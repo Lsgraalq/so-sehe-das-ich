@@ -12,6 +12,7 @@ type Props = {
 
 type Author = {
     username : string;
+
 };
 
 async function  ArtPage({ params }: Props) {
@@ -54,7 +55,7 @@ xl:max-w-[15%] xl:bottom-[-30] xl:right-[-70]'/>
             
             
             <h1 className="font-bold">{art.title}</h1>
-            <p className="">Автор : <a href={"/de/artist/" + Author.username} className="underline">{Author.username}</a></p>
+            <p className="">Автор : <a href={"/de/artist/" + art.authorId} className="underline">{Author.username}</a></p>
             <span className="italic text-[#B3ABBE]">{art.description}</span>
             <h6 className="">Материал: <p className="p-1 bg-[#9773BD] inline-block rounded-sm">{art.canvasType}</p> </h6>
             <h6 className="">Краски: <p className="p-1 bg-[#E24C4C] inline-block rounded-sm">{art.paints?.join(" ")}</p></h6>

@@ -75,57 +75,50 @@ export default function Navbar() {
         </div>
 
         <div
-          className={
-            menuOpen
-              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
-              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
-          }
-        >
-          <div className="flex w-full items-center justify-end z-1000">
-            <div onClick={handleNav} className="cursor-pointer">
-              <AiOutlineClose size={25} />
-            </div>
-          </div>
+  className={
+    menuOpen
+      ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
+      : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
+  }
+>
+  <div className="flex w-full items-center justify-end z-1000">
+    <div onClick={handleNav} className="cursor-pointer">
+      <AiOutlineClose size={25} />
+    </div>
+  </div>
 
-          <div className="flex-col py-4">
-            <ul>
-              <Link href={"/de"}>
-                <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                  Start
-                </li>
-              </Link>
-              <Link href={"/de/services"}>
-                <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                  Services
-                </li>
-              </Link>
-              <Link href={"/de/kontakt"}>
-                <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                  Kontakt
-                </li>
-              </Link>
-              <Link href={"/de/about"}>
-                <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                  About us
-                </li>
-              </Link>
-              {user ? (
-                <Link href="/de/profile/">
-                    <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                    My Profile
-                    </li>
-                </Link>
-                ) : (
-                <Link href="/de/sign-up">
-                    <li onClick={handleNav} className="py-4 cursor-pointer uppercase">
-                    Register
-                    </li>
-                </Link>
-                )}
+  <div className="flex-col py-4">
+    <ul className="flex flex-col gap-4 text-white">
+      <Link href={"/de/"}>
+        <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+          Ausstellungen
+        </li>
+      </Link>
+      <Link href={"/de/gallery"}>
+        <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+          KunstHUB
+        </li>
+      </Link>
+      {user ? (
+        <Link href="/de/profile/">
+          <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+            My Profile
+          </li>
+        </Link>
+      ) : (
+        <Link href="/de/sign-up">
+          <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+            Register
+          </li>
+        </Link>
+      )}
+      {/* <li onClick={langHandleNav} className="cursor-pointer">
+        <img src="/images/gear.png" alt="" className="w-7" />
+      </li> */}
+    </ul>
+  </div>
+</div>
 
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   )
