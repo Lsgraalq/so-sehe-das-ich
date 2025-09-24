@@ -12,7 +12,7 @@ import Navbar from "@/components/navbarDe";
 import FooterDe from "@/components/footerDe";
 import { useParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
+import { MdOutlineModeEdit } from "react-icons/md"
 
 
 interface UserProfile {
@@ -113,10 +113,14 @@ export default function ProfilePage() {
         <div className="w-full grid grid-cols-3 grid-rows-2 gap-6 text-xl">
           <div className=" p-4 text-center">Участник с {userData.createdAt}</div>
           <div className=" pr-22 pb-20 text-center relative flex items-end justify-end">
-             <AvatarUploader
+             {/* <AvatarUploader
         userId={userData.userUid || ""}
         onUpload={(url) => setUserData((prev: UserData | null) => prev ? {...prev, avatarUrl: url} : prev)}
-      />
+      /> */}
+      <a href="/de/profile/edit" className="bg-gray-700 text-white text-xs px-3 py-3 rounded-full cursor-pointer hover:bg-gray-500">
+        <MdOutlineModeEdit />
+        <input  className="hidden"  />
+      </a>
           </div>
           <div className=" p-4 text-center justify-end  w-full flex"> {userData.isArtist && (
                 <div className="w-30 h-8 mr-5 pt-1 pb-1 bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] rounded font-bold">
@@ -146,10 +150,10 @@ export default function ProfilePage() {
               )}
             <h2 className="text-xl font-bold mb-0.5">
               {userData.username}</h2>
-                <AvatarUploader
-        userId={userData.userUid || ""}
-        onUpload={(url) => setUserData((prev: UserData | null) => prev ? {...prev, avatarUrl: url} : prev)}
-      />
+                <a href="/de/profile/edit" className="bg-gray-700 text-white text-xs px-3 py-3 rounded-full cursor-pointer hover:bg-gray-500">
+        <MdOutlineModeEdit />
+        <input  className="hidden"  />
+      </a>
               
           </div>
           <div className=" col-span-3   px-5 flex flex-col gap-3">
@@ -213,6 +217,7 @@ export default function ProfilePage() {
             )}
           </>
         )}
+        
       </div>
     <FooterDe></FooterDe>
   </>
