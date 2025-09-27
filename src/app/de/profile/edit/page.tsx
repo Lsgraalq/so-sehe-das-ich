@@ -8,7 +8,7 @@ import { MdOutlineModeEdit } from "react-icons/md"
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore"
 import AvatarUploader from "@/components/avatarUpload"
 import Button from "@/components/button"
-
+import Preloader from "@/components/preloader"
 
 interface UserProfile {
   userUid: string
@@ -76,8 +76,13 @@ function EditPage() {
   }
 
 
-  if (!authChecked) return <p>Загрузка...</p>
-  if (!userData) return <p>Нет данных пользователя</p>
+  if (!authChecked) return 
+  <>
+  <Preloader></Preloader>
+  </>
+  if (!userData) return <>
+  <Preloader></Preloader>
+  </>
 
   return (
     <>

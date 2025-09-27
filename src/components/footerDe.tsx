@@ -19,10 +19,10 @@ function FooterDe() {
         loading="lazy" className="mx-auto align justify-center hidden md:flex lg:w-100"></iframe></div>
                 <div className="flex flex-col xl:gap-6 gap-2">
                     <ul className="text-sm md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1">
-                        <li><a href="" className="">Impressum</a></li>
+                        <li><a href="/de/impressum" className="">Impressum</a></li>
                         <li><a href="" className="">AGB</a></li>
-                        <li><a href="" className="">Datenverarbeitung</a></li>
-                        <li><a href="" className="">Datenshutzerklärung</a></li>
+
+                        <li><a href="/de/datenschutzerklarung" className="">Datenshutzerklärung</a></li>
                     </ul>
                     <div className="flex flex-row gap-2">
                         <img src="/images/footer1.png" alt="SODI"  className='w-20 h-auto object-contain xl:w-30'/>

@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth"
 import { setDoc, doc, serverTimestamp } from "firebase/firestore"
 import { auth, db } from "@/firebase/config"
 import { useRouter } from "next/navigation"
@@ -32,35 +32,40 @@ export default function SignUpPage() {
 
 
   const registrateEmailPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!acceptedTerms) return
-    if (!usernameRegex.test(username) ) {
+  e.preventDefault()
+  if (!acceptedTerms) return
+  if (!usernameRegex.test(username)) {
     setErrorMsg("Benutzername darf nur lateinische Buchstaben, Zahlen und _ enthalten")
     return
   }
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-      
-      const user = userCredentials.user
-      
-      await setDoc(doc(db, "users", user.uid), {
-        email,
-        username,
-        firstName,
-        lastName,
-        avatarUrl,
-        bio,
-        birthDate,
-        isArtist,
-        createdAt: serverTimestamp(),
-      })
 
-      router.push("/de/profile/" )
-    } catch (error: any) {
-      console.log("Fehler bei der Registrierung:", error)
-      setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")
-    }
+  try {
+    const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+    const user = userCredentials.user
+
+    await sendEmailVerification(user)
+
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      username,
+      firstName,
+      lastName,
+      avatarUrl,
+      bio,
+      birthDate,
+      isArtist,
+      createdAt: serverTimestamp(),
+    })
+
+    // 👉 сразу выкидываем
+    await signOut(auth)
+
+    router.push("/de/check-email") // страница с текстом: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
+  } catch (error: any) {
+    console.log("Fehler bei der Registrierung:", error)
+    setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")
   }
+}
 
   return (
     <>

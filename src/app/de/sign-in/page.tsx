@@ -8,23 +8,29 @@ import Navbar from '@/components/navbarDe';
 import FooterDe from '@/components/footerDe';
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const router = useRouter();
-    const [errorMsg, setErrorMsg] = useState<string | null>(null)
-    
-        
-   const loginEmailPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const router = useRouter()
+
+  const loginEmailPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
     try {
-    const userCredentials = await signInWithEmailAndPassword(auth,email,password);
-    console.log(userCredentials.user);
-    router.push("/de/profile")
-      }  catch(error: any) {
-        console.log(error);
-        setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+      const user = userCredentials.user
+
+      if (!user.emailVerified) {
+        setErrorMsg("Bitte bestätigen Sie zuerst Ihre E-Mail-Adresse.")
+        return
       }
-   }
+
+      console.log("Anmeldung erfolgreich:", user.uid)
+      router.push("/de/profile")
+    } catch (error: any) {
+      console.error("Fehler bei der Anmeldung:", error)
+      setErrorMsg(error.message || "Unbekannter Fehler bei der Anmeldung.")
+    }
+  }
 
   return (
     <>

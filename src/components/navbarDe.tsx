@@ -4,6 +4,9 @@ import Link from "next/link"
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "@/firebase/config"
+import {  useRef } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 
 export default function Navbar() {
@@ -14,14 +17,49 @@ export default function Navbar() {
 
   const handleNav = () => setMenuOpen(!menuOpen)
   const langHandleNav = () => setLangMenuOpen(!langMenuOpen)
+  const navRef = useRef<HTMLDivElement>(null)
+  let lastScrollY = 0
 
-  // Загружаем username, если пользователь авторизован
   useEffect(() => {
-   
+    //  ScrollTrigger.create({
+    //   trigger: "#hide-section", // ID секции, при попадании которой в экран → скрывать
+    //   start: "top center",      // когда верх секции попадает в центр экрана
+    //   onEnter: () => {
+    //     gsap.set(navRef.current, { y: "-100%" }) // моментально спрятать
+    //   },
+    //   onLeaveBack: () => {
+    //     gsap.set(navRef.current, { y: "0%" })    // вернуть обратно
+    //   }
+    // })
+    const handleScroll = () => {
+      const currentScroll = window.scrollY
+
+      if (currentScroll > lastScrollY) {
+        // скроллим вниз → прячем
+        gsap.to(navRef.current, {
+          y: "-100%",
+          duration: 0.4,
+          ease: "power2.out",
+        })
+      } else {
+        // скроллим вверх → показываем
+        gsap.to(navRef.current, {
+          y: "0%",
+          duration: 0.4,
+          ease: "power2.out",
+        })
+      }
+
+      lastScrollY = currentScroll
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+
   return (
-    <div className="fixed w-full top-0 h-18 shadow-xl z-[1] bg-[#0A0A0A]">
+    <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[1] bg-[#0A0A0A]">
       <div className="flex justify-between items-center h-full w-full contaner md:px-20 px-8">
         <Link href={"/"}>
           <div className="uppercase xl:text-xl sm:text-base">

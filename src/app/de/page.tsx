@@ -7,14 +7,19 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ReactLenis } from 'lenis/react'
 import { useRef } from "react";
 import FooterDe from "@/components/footerDe";
+import { useEffect, useState } from "react"
 
 
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
+    const images = Array.from(document.images)
+    const [progress, setProgress] = useState(0)
+    const videos = Array.from(document.querySelectorAll("video"))
+    const media = [...images, ...videos]
     const lenisRef = useRef<any>(null);
-
+    const [loading, setLoading] = useState(true)
    useGSAP(() => {
     
     // создаём smoother, если ещё не создавали
@@ -24,7 +29,48 @@ export default function Home() {
   }, []);
     
  
-  
+ 
+
+
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const images = Array.from(window.document.images)
+    const videos = Array.from(window.document.querySelectorAll("video"))
+    const media = [...images, ...videos]
+
+    let loadedCount = 0
+    const total = media.length
+
+    const updateProgress = () => {
+      loadedCount++
+      const percent = Math.round((loadedCount / total) * 100)
+      setProgress(percent)
+
+      if (loadedCount === total) {
+        gsap.to(".preloader", {
+          y: "-100%",
+          duration: 0.8,
+          ease: "power3.inOut",
+          delay: 0.3,
+        })
+      }
+    }
+
+    media.forEach((el) => {
+      if (el instanceof HTMLImageElement) {
+        if (el.complete) updateProgress()
+        else el.addEventListener("load", updateProgress)
+      }
+      if (el instanceof HTMLVideoElement) {
+        if (el.readyState >= 3) updateProgress()
+        else el.addEventListener("loadeddata", updateProgress)
+      }
+    })
+
+    if (total === 0) setProgress(100)
+  }, [])
 
   return (
   <>
@@ -45,20 +91,30 @@ export default function Home() {
     
     <div id="smooth-content"
     >
-    <section className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat" 
+     <div className="preloader fixed inset-0 flex flex-col items-center justify-center bg-black text-white z-50">
+        <h1 className="text-2xl font-bold mb-4">Loading {progress}%</h1>
+        <div className="w-64 h-2 bg-gray-700 rounded overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] transition-all duration-200"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+
+    <section id="hide-section" className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat" 
   style={{ backgroundImage: "url('/images/hero.png')" }}>
      
       
     </section>
-    <section className="min-h-[100vh] section-two relative parent  "  >
+    <section className="min-h-screen section-two relative parent  "  >
       
       <img src="/images/sdvg.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] absolute left-5 md:top-20 top-10 child-parallax object-cover " />
-      <div className="w-[75%] mx-auto flex flex-col justify-center h-screen " >
-        <h1 className="inline-block  text-4xl w-full text-center font-bold pb-20 md:text-5xl">
+      <div className="w-[85%] mx-auto flex flex-col justify-center h-screen " >
+        <h1 className="inline-block  text-4xl w-full text-center font-bold pb-20 md:text-5xl z-[1]">
           SO SEHE DAS 
           <img src="/images/ich.png" alt="ICH" className="h-[1em] inline-block mb-2 ml-2"/>
         </h1> 
-        <p className="text-center text-lg leading-7.5 xl:leading-10 text-gray-200 md:text-2xl "> - ist eine offene Ausstellung, bei der wirklich jeder Künstlerin die Möglichkeit hat, seine Weltanschauung, seine Erfahrungen und seine Emotionen mit der Öffentlichkeit zu teilen. Jeder darf mitmachen - egal ob Schülerin oder Rentnerin, jede Stimme zählt, jeder hat das Recht auf Selbstausdruck!
+        <p className="text-center text-lg leading-7.5 xl:leading-10 text-gray-200 md:text-2xl z-[1] "> - ist eine offene Ausstellung, bei der wirklich jeder Künstlerin die Möglichkeit hat, seine Weltanschauung, seine Erfahrungen und seine Emotionen mit der Öffentlichkeit zu teilen. Jeder darf mitmachen - egal ob Schülerin oder Rentnerin, jede Stimme zählt, jeder hat das Recht auf Selbstausdruck!
         </p>
       </div>
       <img src="/images/asd.png" alt="" className="w-[40%] md:w-[30%] xl:w-[25%] 2xl:w-[20%] bottom-10 md:bottom-0 right-5 absolute child-parallax object-cover" />
@@ -118,8 +174,8 @@ export default function Home() {
         </div>
       </div>
     </section>
-    <section className="h-screen bg-[#FEC97C]"  >
-      <div className="w-[80%] mx-auto">
+    <section className="min-h-screen bg-[#FEC97C]"  >
+      <div className="w-[80%] mx-auto flex flex-col">
         <div className="mx-auto w-full flex lg:flex-row flex-col justify-between px-10 lg:pb-10">
           <h1 className="text-[#0A0A0A] font-bold md:text-[23vh] text-[19vh] border-b-10 lg:border-b-0 mx-auto xl:text-[26vh] 2xl:text-[35vh]">14</h1>
           <h1 className="text-[#0A0A0A]  md:text-[25vh] hidden lg:flex lg:text-[26vh] xl:text-[35vh]">|</h1>
@@ -143,7 +199,7 @@ export default function Home() {
        
       </div>
     </section>
-    <section className="h-screen bg-[#FEC97C] text-[#0A0A0A]"  >
+    <section className="min-h-screen bg-[#FEC97C] text-[#0A0A0A] pt-40 pb-40"  >
       <div className="w-[80%] h-screen lg:flex lg:flex-row relative mx-auto ">
         <div className="flex flex-col gap-10 justify-center h-screen lg:w-1/2">
           <h1 className="w-full  lg:text-6xl text-3xl font-bold uppercase text-left">Wo finden die Ausstellungen statt?</h1>
@@ -158,7 +214,7 @@ export default function Home() {
        width="80%" height="80%" 
         loading="lazy" className="mx-auto align justify-center "></iframe>
     </section>
-    <section className="min-h-screen"  >
+    <section className="min-h-screen "  >
       <div className="w-[80%] mx-auto pb-10">
         <div className="w-full ">
           <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-6xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
