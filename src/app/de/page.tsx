@@ -8,18 +8,15 @@ import { ReactLenis } from 'lenis/react'
 import { useRef } from "react";
 import FooterDe from "@/components/footerDe";
 import { useEffect, useState } from "react"
-
+import Preloader from "@/components/preloader";
 
 gsap.registerPlugin(useGSAP); 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
-    const images = Array.from(document.images)
-    const [progress, setProgress] = useState(0)
-    const videos = Array.from(document.querySelectorAll("video"))
-    const media = [...images, ...videos]
+   
     const lenisRef = useRef<any>(null);
-    const [loading, setLoading] = useState(true)
+   
    useGSAP(() => {
     
     // создаём smoother, если ещё не создавали
@@ -33,44 +30,6 @@ export default function Home() {
 
 
 
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const images = Array.from(window.document.images)
-    const videos = Array.from(window.document.querySelectorAll("video"))
-    const media = [...images, ...videos]
-
-    let loadedCount = 0
-    const total = media.length
-
-    const updateProgress = () => {
-      loadedCount++
-      const percent = Math.round((loadedCount / total) * 100)
-      setProgress(percent)
-
-      if (loadedCount === total) {
-        gsap.to(".preloader", {
-          y: "-100%",
-          duration: 0.8,
-          ease: "power3.inOut",
-          delay: 0.3,
-        })
-      }
-    }
-
-    media.forEach((el) => {
-      if (el instanceof HTMLImageElement) {
-        if (el.complete) updateProgress()
-        else el.addEventListener("load", updateProgress)
-      }
-      if (el instanceof HTMLVideoElement) {
-        if (el.readyState >= 3) updateProgress()
-        else el.addEventListener("loadeddata", updateProgress)
-      }
-    })
-
-    if (total === 0) setProgress(100)
-  }, [])
 
   return (
   <>
@@ -91,15 +50,7 @@ export default function Home() {
     
     <div id="smooth-content"
     >
-     <div className="preloader fixed inset-0 flex flex-col items-center justify-center bg-black text-white z-50">
-        <h1 className="text-2xl font-bold mb-4">Loading {progress}%</h1>
-        <div className="w-64 h-2 bg-gray-700 rounded overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] transition-all duration-200"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-      </div>
+     <Preloader></Preloader>
 
     <section id="hide-section" className=" header pb-30 w-full h-screen bg-center bg-cover bg-no-repeat" 
   style={{ backgroundImage: "url('/images/hero.png')" }}>
@@ -203,8 +154,8 @@ export default function Home() {
       <div className="w-[80%] h-screen lg:flex lg:flex-row relative mx-auto ">
         <div className="flex flex-col gap-10 justify-center h-screen lg:w-1/2">
           <h1 className="w-full  lg:text-6xl text-3xl font-bold uppercase text-left">Wo finden die Ausstellungen statt?</h1>
-          <span className=" text-2xl lg:text-3xl  uppercase">Derzeit werden wir ausschließlich von <p className="font-bold">Passage 13</p> unterstützt, die uns ihre</span>
-          <p className="text-2xl lg:text-3xl  uppercase">In Zukunft hoffen wir, auch von anderen ehrenamtlichen Organisationen Unterstützung zu erhalten, um unsere Ausstellungen an weiteren Orten oder sogar in anderen Städten durchführen zu können!</p>
+          <span className=" text-xl lg:text-2xl  uppercase">Ausstellungen finden in ganz Deutschland statt! Wir versuchen, jede Ausstellung in einer anderen Stadt zu veranstalten und so neue Menschen und Erfahrungen zu gewinnen. Eine Liste der Ausstellungen und der Veranstaltungsorte finden Sie auf unserer Ausstellungsseite.</span>
+          <p className="text-xl lg:text-2xl  uppercase">Wenn Sie eine Ausstellung in Ihre Stadt bringen möchten und uns bei der Umsetzung unterstützen möchten, kontaktieren Sie uns gerne!</p>
         </div>
         <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penis.png" alt="" className="hidden lg:flex" /> </div>
       </div>
@@ -217,23 +168,29 @@ export default function Home() {
     <section className="min-h-screen "  >
       <div className="w-[80%] mx-auto pb-10">
         <div className="w-full ">
-          <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-6xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
+          <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-5xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
         </div>
         <div className="text-center">
-          <h1 className="text-2xl w-full text-center font-bold pb-10 md:text-3xl">Die Ausstellung wird von der engagierten Freiwilligengruppe Caseus organisiert.</h1>
+          <h1 className="text-2xl w-full text-center font-bold pb-10 md:text-3xl">Die Ausstellung wird von der engagierten Freiwilligengruppe NEZABUTI organisiert.
+</h1>
         </div>
         <div className="flex flex-row w-[80%] mx-auto">
-          <div className="flex flex-col 2xl:w-[75%]">
-            <div className="flex flex-col md:flex-row">
-               <img src="/images/casusus.png" alt="" className="p-15 max-w-[30vh] mx-auto object-contain" />
-             <span className="text-center m-auto md:text-left  md:text-lg"> <p className="font-bold uppercase md:text-xl ">Caseus Studio</p> Unser Schwerpunkt liegt im Bereich Video. Seit einem Jahr produzieren wir Filme, Interviews, 
-             soziale Kurzfilme, Fotoprojekte und mehr. Kürzlich haben wir uns erweitert und ein eigenes journalistisches Subprojekt gegründet: nezabuti.
-            </span>
-            </div>
+          <div className="flex flex-col 2xl:w-[75%] gap-10">
+            
             <div className="flex  flex-col md:flex-row">
                <img src="/images/nenenene.png" alt="" className=" p-15  max-w-[30vh] mx-auto md:mx-0" />
               <span className="text-center mt-auto mb-auto md:text-left md:text-lg"> <p className="font-bold uppercase md:text-xl ">Nezabuti</p>  - beschäftigt sich mit Journalismus, dokumentiert verschiedenste Events und führt Interviews durch.
               </span>
+            </div>
+            <div className="flex flex-col md:flex-col gap-2">
+             <span className="text-center md:pl-15 md:text-left  md:text-lg"> <p className="font-bold uppercase md:text-xl ">Sie unterstützen uns auch so:</p>
+            </span>
+               <div className="flex md:flex-row gap-3 md:pl-15 flex-col mx-auto md:mx-auto">
+                <img src="/images/logo_two.png" alt="" className="w-42 h-42  "/>
+                <img src="/images/logo_tree.png" alt="" className="w-42 h-42 "/>
+                <img src="/images/logo_one.png" alt="" className="w-42 h-42 "/>
+
+               </div>
             </div>
           </div>
           <div className="hidden lg:flex 2xl:w-[25%]">

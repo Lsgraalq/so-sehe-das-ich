@@ -6,11 +6,11 @@ function FooterDe() {
         <div className="flex flex-row justify-between mb-7 gap-3">
             <div className="flex flex-col xl:border-r-1 xl:pr-40 border-white ">
                 <ul className='text-sm  md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1'>
-                    <li className=""><a href="#">Settings</a></li>
-                    <li className=""><a href="#">Contact</a></li>
-                    <li className=""><a href="#">Support us</a></li>
+                    <li className=""><a href="#">Einstellungen</a></li>
+                    <li className=""><a href="#">Kontakt</a></li>
+                    <li className=""><a href="#">Unterstütze uns</a></li>
                     <li className=""><a href="#">FAQ</a></li>
-                    <li className=""><a href="#">How to participate</a></li>
+                    <li className=""><a href="#">Wie man teilnimmt</a></li>
                 </ul>
             </div>
             <div className="flex flex-row md:gap-3 xl:gap-10 md:border-r-1 md:pr-20 md:border-white">
@@ -32,10 +32,11 @@ function FooterDe() {
             </div>
             <div className="">
                 <ul className="text-sm md:text-lg xl:text-xl flex flex-col xl:gap-6 gap-1">
-                    <li className=""><a href="#">Profile</a></li>
-                    <li className=""><a href="#">Register</a></li>
+                    <li className=""><a href="#">Profil</a></li>
+                    <li className=""><a href="#">Registrieren</a></li>
                     <li className=""><a href="#">KunstHub</a></li>
-                    <li className=""><a href="#">Exhibitions</a></li>
+                    <li className=""><a href="#">Ausstellungen</a></li>
+
                 </ul>
             </div>
         </div>

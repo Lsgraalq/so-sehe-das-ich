@@ -60,7 +60,7 @@ export default function SignUpPage() {
     // 👉 сразу выкидываем
     await signOut(auth)
 
-    router.push("/de/check-email") // страница с текстом: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
+    router.push("/de/sign-up/check-email") // страница с текстом: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
   } catch (error: any) {
     console.log("Fehler bei der Registrierung:", error)
     setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")

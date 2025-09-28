@@ -70,31 +70,31 @@ export default function Navbar() {
         <div className="hidden lg:flex">
           <ul className="hidden lg:flex gap-20">
             <Link href={"/de/ausstellungen"}>
-              <li className="uppercase hover:border-b xl:text-xl sm:text-base text-white Libre_wide">
+              <li className="uppercase hover:underline xl:text-xl sm:text-base text-white Libre_wide">
                 Ausstellungen
               </li>
             </Link>
             <Link href={"/de/gallery"}>
-              <li className="uppercase hover:border-b xl:text-xl text-white sm:text-base Libre_wide">
+              <li className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide">
                 KunstHUB
               </li>
             </Link>
 
                         {user ? (
             <Link href="/de/profile/">
-                <li className="uppercase hover:border-b xl:text-xl text-white sm:text-base Libre_wide">
+                <li className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide">
                 My Profile
                 </li>
             </Link>
             ) : (
             <Link href="/de/sign-up">
-                <li className="uppercase hover:border-b xl:text-xl text-white sm:text-base Libre_wide">
-                Register
+                <li className="uppercase hover:underline  xl:text-xl text-white sm:text-base Libre_wide">
+                Registrieren
                 </li>
             </Link>
             )}
             
-                <li className="hover:cursor-pointer" onClick={langHandleNav}>
+                {/* <li className="hover:cursor-pointer" onClick={langHandleNav}>
                   <img src="/images/gear.png" alt="" className="w-7" />
                 </li>
                 <div  className={
@@ -103,7 +103,7 @@ export default function Navbar() {
               : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
           }>
 
-                </div>
+                </div> */}
             
           </ul>
         </div>
@@ -128,25 +128,25 @@ export default function Navbar() {
   <div className="flex-col py-4">
     <ul className="flex flex-col gap-4 text-white">
       <Link href={"/de/ausstellungen"}>
-        <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+        <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
           Ausstellungen
         </li>
       </Link>
       <Link href={"/de/gallery"}>
-        <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
+        <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
           KunstHUB
         </li>
       </Link>
       {user ? (
         <Link href="/de/profile/">
-          <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
-            My Profile
+          <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+            Profil
           </li>
         </Link>
       ) : (
         <Link href="/de/sign-up">
-          <li onClick={handleNav} className="uppercase hover:border-b Libre_wide">
-            Register
+          <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+            Registrieren
           </li>
         </Link>
       )}
