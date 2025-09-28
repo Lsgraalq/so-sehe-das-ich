@@ -23,7 +23,7 @@ export default function AuthorProfilePage() {
         const userSnap = await getDoc(userRef)
 
         if (!userSnap.exists()) {
-          console.log("Пользователь не найден:", uid)
+          console.log("Benutzer nicht gefunden:", uid)
           setUserData(null)
           return
         }
@@ -38,7 +38,7 @@ export default function AuthorProfilePage() {
           setArtworks(arts)
         }
       } catch (err) {
-        console.error("Ошибка при загрузке профиля:", err)
+        console.error("Fehler beim Laden des Profils:", err)
       } finally {
         setLoading(false)
       }
@@ -47,10 +47,10 @@ export default function AuthorProfilePage() {
     fetchData()
   }, [uid])
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Загрузка профиля...</p>
-  if (!userData) return <p className="text-center mt-10 text-red-500">Пользователь не найден</p>
+  if (loading) return <p className="text-center mt-10 text-gray-500">Profil wird geladen...</p>
+  if (!userData) return <p className="text-center mt-10 text-red-500">Benutzer nicht gefunden</p>
 
-  // форматирование даты
+  // Datum formatieren
   const createdAtTimestamp = userData.createdAt
   let formattedDate = ""
   if (createdAtTimestamp?.toDate) {
@@ -76,35 +76,35 @@ export default function AuthorProfilePage() {
   return (
     <>
       <Navbar />
-      {/* md and bigger screen */}
+      {/* md und größere Screens */}
       <div className=" sm:flex hidden  bg-[url('/images/artistpanel.png')] w-[80%] h-100 rounded-3xl bg-cover mx-auto bg-center mt-50">
-          <img src={userData.avatarUrl} alt="AVatar" className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-35/100 w-54 xl:-translate-x-1/2 xl:-translate-y-45/100 xl:w-64 rounded-full "/> 
+          <img src={userData.avatarUrl} alt="Avatar" className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-35/100 w-54 xl:-translate-x-1/2 xl:-translate-y-45/100 xl:w-64 rounded-full "/> 
         <div className="w-full grid grid-cols-3 grid-rows-2 gap-6 text-xl">
-          <div className=" p-4 text-center">Участник с {formattedDate}</div>
+          <div className=" p-4 text-center">Mitglied seit {formattedDate}</div>
           <div className=" p-4 text-center"></div>
           <div className=" p-4 text-center justify-end  w-full flex"> {userData.isArtist && (
                 <div className="w-30 h-8 mr-5 pt-1 pb-1 bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] rounded font-bold">
-                  Автор
+                  Autor
                 </div>
               )}</div>
-          <div className=" p-10 text-center">Выставки: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
+          <div className=" p-10 text-center">Ausstellungen: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
           <div className=" text-center flex flex-col gap-2">
             
             <h2 className="text-4xl font-bold">{userData.username}</h2>
             <h3 className="text-center mx-auto flex text-xl">{userData.firstName} {userData.lastName}</h3>
-            <img src="/images/artistvector.png" alt="Errror" className="mt-3"/>
+            <img src="/images/artistvector.png" alt="Error" className="mt-3"/>
             </div>
-          <div className=" p-10 text-center kolvo rabot">Количество работ: <br /> {artworks.length}</div>
+          <div className=" p-10 text-center kolvo rabot">Anzahl der Werke: <br /> {artworks.length}</div>
         </div>
       </div>
       {/* small screen */}
       <div className="flex sm:hidden  bg-[url('/images/Subtract1337.png')] w-[330px] h-[330px] rounded-3xl bg-cover mx-auto bg-center mt-27">
-          <img src={userData.avatarUrl} alt="AVatar" className="absolute  left-1/2 transform -translate-x-48/100 -translate-y-3/100 w-18 rounded-full "/> 
+          <img src={userData.avatarUrl} alt="Avatar" className="absolute  left-1/2 transform -translate-x-48/100 -translate-y-3/100 w-18 rounded-full "/> 
         <div className="w-full grid grid-cols-3 grid-rows-2 gap-1">
          <div className="p-4 col-span-3 flex items-end justify-center gap-2">
           {userData.isArtist && (
                 <div className="px-2 pt-1 pb-1 bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] rounded font-bold">
-                  Автор
+                  Autor
                 </div>
               )}
             <h2 className="text-xl font-bold mb-0.5">
@@ -114,9 +114,9 @@ export default function AuthorProfilePage() {
           <div className=" col-span-3   px-5 flex flex-col gap-3">
             <h3 className="text-left  flex text-sm ">{userData.firstName} {userData.lastName}</h3>
            
-            <p className="text-left">Количество работ: {artworks.length}</p>
+            <p className="text-left">Anzahl der Werke: {artworks.length}</p>
               
-              <p>Выставки:  SO SEHE DAS ICH 1 </p>
+              <p>Ausstellungen:  SO SEHE DAS ICH 1 </p>
               <div className="">
 
               </div>
@@ -126,19 +126,19 @@ export default function AuthorProfilePage() {
       </div>
       <div className="w-[80%] mx-auto flex flex-row mt-5">
         <div className="md:w-[70%]  flex flex-col gap-3">
-        <h3 className="">Описание профиля:</h3>
+        <h3 className="">Profilbeschreibung:</h3>
         <p className="">{userData.bio}</p>
         </div>
       </div>
      
-{/* artworks */}
+{/* Kunstwerke */}
       <div className="max-w-6xl mx-auto mt-10 px-4">
         {userData.isArtist && (
           <>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Картины</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Gemälde</h2>
             {artworks.length === 0 ? (
               <p className="text-gray-500 text-sm">
-                Пока что нет ни одной опубликованной картины.
+                Bisher keine veröffentlichten Gemälde.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -155,8 +155,8 @@ export default function AuthorProfilePage() {
           />
           <div className="pt-4 pl-0.5">
             <h2 className="text-lg font-semibold">{art.title}</h2>
-            <p className="text-gray-600 mt-2">{art.height}см х {art.width}см</p>
-            <p className="text-gray-600">Author: {art.authorUsername}</p>
+            <p className="text-gray-600 mt-2">{art.height}cm x {art.width}cm</p>
+            <p className="text-gray-600">Autor: {art.authorUsername}</p>
           </div>
         </a>
                 ))}

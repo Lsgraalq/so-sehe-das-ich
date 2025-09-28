@@ -21,28 +21,18 @@ export default function Navbar() {
   let lastScrollY = 0
 
   useEffect(() => {
-    //  ScrollTrigger.create({
-    //   trigger: "#hide-section", // ID секции, при попадании которой в экран → скрывать
-    //   start: "top center",      // когда верх секции попадает в центр экрана
-    //   onEnter: () => {
-    //     gsap.set(navRef.current, { y: "-100%" }) // моментально спрятать
-    //   },
-    //   onLeaveBack: () => {
-    //     gsap.set(navRef.current, { y: "0%" })    // вернуть обратно
-    //   }
-    // })
     const handleScroll = () => {
       const currentScroll = window.scrollY
 
       if (currentScroll > lastScrollY) {
-        // скроллим вниз → прячем
+        // nach unten scrollen → verstecken
         gsap.to(navRef.current, {
           y: "-100%",
           duration: 0.4,
           ease: "power2.out",
         })
       } else {
-        // скроллим вверх → показываем
+        // nach oben scrollen → anzeigen
         gsap.to(navRef.current, {
           y: "0%",
           duration: 0.4,
@@ -80,31 +70,19 @@ export default function Navbar() {
               </li>
             </Link>
 
-                        {user ? (
-            <Link href="/de/profile/">
+            {user ? (
+              <Link href="/de/profile/">
                 <li className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide">
-                My Profile
+                  Profil
                 </li>
-            </Link>
+              </Link>
             ) : (
-            <Link href="/de/sign-up">
+              <Link href="/de/sign-up">
                 <li className="uppercase hover:underline  xl:text-xl text-white sm:text-base Libre_wide">
-                Registrieren
+                  Registrieren
                 </li>
-            </Link>
+              </Link>
             )}
-            
-                {/* <li className="hover:cursor-pointer" onClick={langHandleNav}>
-                  <img src="/images/gear.png" alt="" className="w-7" />
-                </li>
-                <div  className={
-            menuOpen
-              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
-              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
-          }>
-
-                </div> */}
-            
           </ul>
         </div>
 
@@ -113,49 +91,46 @@ export default function Navbar() {
         </div>
 
         <div
-  className={
-    menuOpen
-      ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
-      : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
-  }
->
-  <div className="flex w-full items-center justify-end z-1000">
-    <div onClick={handleNav} className="cursor-pointer">
-      <AiOutlineClose size={25} />
-    </div>
-  </div>
+          className={
+            menuOpen
+              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
+              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
+          }
+        >
+          <div className="flex w-full items-center justify-end z-1000">
+            <div onClick={handleNav} className="cursor-pointer">
+              <AiOutlineClose size={25} />
+            </div>
+          </div>
 
-  <div className="flex-col py-4">
-    <ul className="flex flex-col gap-4 text-white">
-      <Link href={"/de/ausstellungen"}>
-        <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
-          Ausstellungen
-        </li>
-      </Link>
-      <Link href={"/de/gallery"}>
-        <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
-          KunstHUB
-        </li>
-      </Link>
-      {user ? (
-        <Link href="/de/profile/">
-          <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
-            Profil
-          </li>
-        </Link>
-      ) : (
-        <Link href="/de/sign-up">
-          <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
-            Registrieren
-          </li>
-        </Link>
-      )}
-      {/* <li onClick={langHandleNav} className="cursor-pointer">
-        <img src="/images/gear.png" alt="" className="w-7" />
-      </li> */}
-    </ul>
-  </div>
-</div>
+          <div className="flex-col py-4">
+            <ul className="flex flex-col gap-4 text-white">
+              <Link href={"/de/ausstellungen"}>
+                <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                  Ausstellungen
+                </li>
+              </Link>
+              <Link href={"/de/gallery"}>
+                <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                  KunstHUB
+                </li>
+              </Link>
+              {user ? (
+                <Link href="/de/profile/">
+                  <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                    Profil
+                  </li>
+                </Link>
+              ) : (
+                <Link href="/de/sign-up">
+                  <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                    Registrieren
+                  </li>
+                </Link>
+              )}
+            </ul>
+          </div>
+        </div>
 
       </div>
     </div>

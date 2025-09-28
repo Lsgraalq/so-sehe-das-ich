@@ -6,11 +6,11 @@ function FooterDe() {
         <div className="flex flex-row justify-between mb-7 gap-3">
             <div className="flex flex-col xl:border-r-1 xl:pr-40 border-white ">
                 <ul className='text-sm  md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1'>
-                    <li className=""><a href="#">Einstellungen</a></li>
-                    <li className=""><a href="#">Kontakt</a></li>
-                    <li className=""><a href="#">Unterstütze uns</a></li>
-                    <li className=""><a href="#">FAQ</a></li>
-                    <li className=""><a href="#">Wie man teilnimmt</a></li>
+                    <li className=""><a href="/de/profile/edit/">Einstellungen</a></li>
+                    <li className=""><a href="/de/contact-us/">Kontakt</a></li>
+                    <li className=""><a href="/de/support-us/">Unterstütze uns</a></li>
+                    <li className=""><a href="/de/faq/">FAQ</a></li>
+                    <li className=""><a href="/de/how-to-participate/">Wie man teilnimmt</a></li>
                 </ul>
             </div>
             <div className="flex flex-row md:gap-3 xl:gap-10 md:border-r-1 md:pr-20 md:border-white">
