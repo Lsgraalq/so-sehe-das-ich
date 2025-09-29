@@ -49,7 +49,7 @@ export default function Navbar() {
 
 
   return (
-    <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[1] bg-[#0A0A0A]">
+    <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[2] bg-[#0A0A0A]">
       <div className="flex justify-between items-center h-full w-full contaner md:px-20 px-8">
         <Link href={"/"}>
           <div className="uppercase xl:text-xl sm:text-base">

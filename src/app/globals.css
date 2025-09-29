@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
 
 :root {
   --background: #ffffff;
@@ -42,3 +46,16 @@ body {
   mix-blend-mode:difference;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff !important; /* белые стрелки */
+}
+
+.swiper-pagination-bullet {
+  background-color: #9ca3af; /* серый */
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ef4444; /* красный (активная) */
+}

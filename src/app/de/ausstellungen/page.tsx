@@ -1,19 +1,84 @@
-import React from 'react'
-import Navbar from '@/components/navbarDe'
-import FooterDe from '@/components/footerDe'
+"use client"
 
+import React, { useEffect, useState } from "react"
+import Navbar from "@/components/navbarDe"
+import FooterDe from "@/components/footerDe"
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "@/firebase/config"
+import Link from "next/link"
 
-function page() {
+interface Exhibition {
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  carousel?: string[] // массив фоток
+}
+
+function Page() {
+  const [exhibitions, setExhibitions] = useState<Exhibition[]>([])
+
+  useEffect(() => {
+    const fetchExhibitions = async () => {
+      try {
+        const snap = await getDocs(collection(db, "exhibitions"))
+        const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Exhibition[]
+        setExhibitions(data)
+      } catch (error) {
+        console.error("Ошибка загрузки выставок:", error)
+      }
+    }
+    fetchExhibitions()
+  }, [])
+
   return (
     <>
-    <Navbar></Navbar>
-    <div className="bg-[url('/images/SSDIautism.png')] bg-cover bg-center bg-no-repeat w-full h-screen  flex flex-col items-center justify-center gap-10">
-        <h1 className='md:text-6xl text-6xl font-bold'>AUSTEL<br className='flex: md:hidden' />LUNGEN</h1>
-        <h2 className='md:text-4xl text-xl text-center max-w-[70%] mx-auto'>Auf dieser Seite können Sie die Ausstellung auswählen, an der Sie teilnehmen möchten, und sehen, wie die vergangenen Ausstellungen durchgeführt wurden.</h2>
-      </div>
-    <div className="max-w-[75%] mx-auto flex flex-col pt-20 gap-30">
+      <Navbar />
 
-      {/* SSDI 2 */}
+      <div className="bg-[url('/images/SSDIautism.png')] bg-cover bg-center bg-no-repeat w-full h-screen flex flex-col items-center justify-center gap-10">
+        <h1>AUSTELLUNGEN</h1>
+        <h2>
+          Auf dieser Seite können Sie die Ausstellung auswählen, an der Sie teilnehmen möchten, und sehen,
+          wie die vergangenen Ausstellungen durchgeführt wurden.
+        </h2>
+      </div>
+
+      <div className="max-w-[70%] mx-auto flex flex-col pt-20 gap-20">
+        {exhibitions.map(ex => (
+          <div key={ex.id}>
+            <Link href={`/de/ausstellungen/${ex.id}`}>
+              {/* одна картинка из карусели */}
+              {ex.carousel && ex.carousel.length > 0 && (
+                <img src={ex.carousel[0]} alt={ex.title} />
+              )}
+            </Link>
+
+            <Link href={`/de/ausstellungen/${ex.id}`}>
+              <h1>{ex.title}</h1>
+            </Link>
+
+            <p>{ex.description}</p>
+
+            <ul>
+              <li><strong>Datum:</strong> {ex.date}</li>
+              <li><strong>Uhrzeit:</strong> {ex.time}</li>
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <FooterDe />
+    </>
+  )
+}
+
+export default Page
+
+
+
+ {/* SSDI 2 */}
+      {/* 
       <div className="flex flex-col gap-5">
         <a href="/de/ausstellungen/so-sehe-das-ich-2" className=''>
           <img src="/images/prva.png" alt="" />
@@ -32,11 +97,11 @@ function page() {
         </ul>
       </div>
       </div>
-      
+       */}
     
 
     {/* SSDI 1 */}
-    <div className="flex flex-col gap-5">
+    {/* <div className="flex flex-col gap-5">
        
         <a href="/de/ausstellungen/so-sehe-das-ich-1" className=''>
          <img src="/images/vtoraya.png" alt="" />
@@ -56,14 +121,4 @@ function page() {
         </ul>
       </div>
       </div>
-    
-
-
-
-    </div>
-    <FooterDe></FooterDe>
-    </>
-  )
-}
-
-export default page
+     */}

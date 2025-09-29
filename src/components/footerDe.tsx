@@ -20,7 +20,7 @@ function FooterDe() {
                 <div className="flex flex-col xl:gap-6 gap-2">
                     <ul className="text-sm md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1">
                         <li><a href="/de/impressum" className="">Impressum</a></li>
-                        <li><a href="" className="">AGB</a></li>
+                        <li><a href="/de/agb/" className="">AGB</a></li>
 
                         <li><a href="/de/datenschutzerklarung" className="">Datenshutzerklärung</a></li>
                     </ul>
@@ -32,10 +32,10 @@ function FooterDe() {
             </div>
             <div className="">
                 <ul className="text-sm md:text-lg xl:text-xl flex flex-col xl:gap-6 gap-1">
-                    <li className=""><a href="#">Profil</a></li>
-                    <li className=""><a href="#">Registrieren</a></li>
-                    <li className=""><a href="#">KunstHub</a></li>
-                    <li className=""><a href="#">Ausstellungen</a></li>
+                    <li className=""><a href="/de/profile/">Profil</a></li>
+                    <li className=""><a href="/de/sign-up/">Registrieren</a></li>
+                    <li className=""><a href="/de/gallery/">KunstHub</a></li>
+                    <li className=""><a href="/de/ausstellungen/">Ausstellungen</a></li>
 
                 </ul>
             </div>

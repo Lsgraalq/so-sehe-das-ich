@@ -71,7 +71,7 @@ export default function SignUpPage() {
     <>
     <Navbar></Navbar>
     
-    <div className="pt-23 mb-45  bg-[url('/images/auth_bg.png')] bg-cover bg-center bg-no-repeat w-full h-screen">
+    <div className="pt-23 mb-45  bg-[url('/images/auth_bg.png')] bg-cover bg-center bg-no-repeat w-full h-[120vh]">
 <form onSubmit={registrateEmailPassword} className="mx-10 flex flex-col gap-1 ">
   {/* Email */}
   <div className="flex flex-row  align-center items-center  md:gap-30 gap-10 md:max-w-[400px] xl:max-w-[500px] mx-auto">
@@ -210,14 +210,14 @@ export default function SignUpPage() {
 
   {/* Bio */}
   <div className="relative z-0 w-full mb-5 group md:max-w-[400px] mx-auto xl:max-w-[500px]">
-    <textarea
+    <input
       value={bio}
       onChange={(e) => setBio(e.target.value)}
       id="floating_bio"
       className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 
                  border-b-2 border-gray-300 appearance-none 
                    focus:outline-none 
-                 focus:ring-0 focus:border-white peer resize-none"
+                 focus:ring-0 focus:border-white peer"
       placeholder=" "
     />
     <label
