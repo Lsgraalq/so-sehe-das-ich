@@ -8,12 +8,14 @@ import { onAuthStateChanged } from "firebase/auth"
 import { db, auth } from "@/firebase/config"
 import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
+import { useRouter } from "next/navigation"
 import Carousel from "@/components/slider"
 
 interface Section {
   title: string
   text: string
   imageUrl?: string
+  iframeUrl?: string
 }
 
 interface Exhibition {
@@ -28,6 +30,7 @@ interface Exhibition {
 
 export default function ExhibitionPage() {
   const params = useParams()
+  const router = useRouter()
   const id = Array.isArray(params.id) ? params.id[0] : params.id
 
   const [exhibition, setExhibition] = useState<Exhibition | null>(null)
@@ -126,6 +129,19 @@ export default function ExhibitionPage() {
                     className="rounded max-h-[90vh] object-contain"
                   />
                 )}
+                  {s.iframeUrl ? (
+            <div className="w-full aspect-video">
+              <iframe
+                src={s.iframeUrl}
+                className="w-full h-full rounded-lg"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          ) : (
+            <p className="text-gray-300">{s.text}</p>
+          )}
               </div>
             ))}
           </div>

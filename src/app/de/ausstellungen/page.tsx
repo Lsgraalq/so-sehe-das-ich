@@ -13,6 +13,7 @@ interface Exhibition {
   description: string
   date: string
   time: string
+  titleImage: string
   carousel?: string[] // массив фоток
 }
 
@@ -36,33 +37,42 @@ function Page() {
     <>
       <Navbar />
 
-      <div className="bg-[url('/images/SSDIautism.png')] bg-cover bg-center bg-no-repeat w-full h-screen flex flex-col items-center justify-center gap-10">
-        <h1>AUSTELLUNGEN</h1>
-        <h2>
-          Auf dieser Seite können Sie die Ausstellung auswählen, an der Sie teilnehmen möchten, und sehen,
-          wie die vergangenen Ausstellungen durchgeführt wurden.
+      <div className="bg-[url('/images/SSDIautism.png')] bg-cover bg-center bg-no-repeat w-full h-screen flex flex-col items-center justify-center gap-10"> 
+        <h1 className='md:text-6xl text-6xl font-bold'>AUSTEL<br className='flex: md:hidden' />LUNGEN</h1> 
+        <h2 className='md:text-4xl text-xl text-center max-w-[70%] mx-auto'>
+          Auf dieser Seite können Sie die Ausstellung auswählen, an der Sie teilnehmen möchten, und sehen,wie die vergangenen Ausstellungen durchgeführt wurden.
         </h2>
-      </div>
+       </div>
 
-      <div className="max-w-[70%] mx-auto flex flex-col pt-20 gap-20">
+      <div className="max-w-[80%] mx-auto flex flex-col pt-10 gap-20">
         {exhibitions.map(ex => (
-          <div key={ex.id}>
-            <Link href={`/de/ausstellungen/${ex.id}`}>
-              {/* одна картинка из карусели */}
-              {ex.carousel && ex.carousel.length > 0 && (
-                <img src={ex.carousel[0]} alt={ex.title} />
-              )}
-            </Link>
+          <div key={ex.id} className=" flex flex-col gap-5">
+            <a 
+              href={`/de/ausstellungen/${ex.id}`} 
+              className="flex items-center justify-center h-screen w-full"
+            >
+              <img 
+                src={ex.titleImage} 
+                alt={ex.title} 
+                className="max-h-[80vh] w-full object-cover rounded"
+              />
+            </a>
+
+
+
 
             <Link href={`/de/ausstellungen/${ex.id}`}>
-              <h1>{ex.title}</h1>
+              <h1 className="italic md:text-6xl text-3xl font-bold">{ex.title}</h1>
             </Link>
 
-            <p>{ex.description}</p>
+            <p className="md:text-3xl text-[#C7B8CA]">{ex.description}</p>
 
-            <ul>
-              <li><strong>Datum:</strong> {ex.date}</li>
-              <li><strong>Uhrzeit:</strong> {ex.time}</li>
+            <ul className=" grid grid-cols-2 grid-rows-3 md:text-2xl gap-2 text-sm">
+              <li className=' col-span-1'><strong>Datum:</strong>{ex.date}</li>
+              <li className=' col-span-1'><strong>Anzahl der Teilnehmer:</strong>0</li>
+              <li className=' col-span-1'><strong>Uhrzeit:</strong> {ex.time}</li>
+              <li className=' col-span-1'><strong>Anzahl der Werke:</strong> 0</li>
+              <li className=' col-span-1'><strong>Stadt:</strong> Halle (Saale)</li>
             </ul>
           </div>
         ))}

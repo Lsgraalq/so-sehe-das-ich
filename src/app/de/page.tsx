@@ -101,7 +101,7 @@ export default function Home() {
         </div>
     </div>
     <img src="/images/eye.png" alt="" className="absolute z-[-1] bottom-40 right-0 w-[70%] lg:w-[30%] lg:top-90 md:w-[40%] xl:w-[20%]" />
-    <img src="/images/pinis.png" alt="" className="absolute z-[-1] top-20  right-10 w-[30%] md:w-[20%] xl:w-[10%] " />
+    <img src="/images/pinispipirka.png" alt="" className="absolute z-[-1] top-20  right-10 w-[30%] md:w-[20%] xl:w-[10%] " />
     <img src="/images/eyes.png" alt="" className="absolute z-[-1] top-100 right-80 xl:top-75 " />
    </div>
    
@@ -157,7 +157,7 @@ export default function Home() {
           <span className=" text-xl lg:text-2xl  uppercase">Ausstellungen finden in ganz Deutschland statt! Wir versuchen, jede Ausstellung in einer anderen Stadt zu veranstalten und so neue Menschen und Erfahrungen zu gewinnen. Eine Liste der Ausstellungen und der Veranstaltungsorte finden Sie auf unserer Ausstellungsseite.</span>
           <p className="text-xl lg:text-2xl  uppercase">Wenn Sie eine Ausstellung in Ihre Stadt bringen möchten und uns bei der Umsetzung unterstützen möchten, kontaktieren Sie uns gerne!</p>
         </div>
-        <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penis.png" alt="" className="hidden lg:flex" /> </div>
+        <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penisenko.png" alt="" className="hidden lg:flex" /> </div>
       </div>
     </section>
     <section className="h-screen flex  justify-center items-center"  >
@@ -168,7 +168,7 @@ export default function Home() {
     <section className="min-h-screen "  >
       <div className="w-[80%] mx-auto pb-10">
         <div className="w-full ">
-          <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-5xl uppercase"> <img src="/images/niger.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
+          <h1 className="inline-block  text-4xl w-full text-center font-bold pb-5 md:text-5xl uppercase"> <img src="/images/nigeria.png" alt="" className="inline-block h-[3em] mb-9 mr-3" />organisiert die Ausstellung?</h1>
         </div>
         <div className="text-center">
           <h1 className="text-2xl w-full text-center font-bold pb-10 md:text-3xl">Die Ausstellung wird von der engagierten Freiwilligengruppe NEZABUTI organisiert.
