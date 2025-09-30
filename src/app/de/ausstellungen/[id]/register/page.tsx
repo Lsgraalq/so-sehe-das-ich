@@ -18,12 +18,13 @@ interface Art {
   id: string
   title: string
   imageUrl: string
-  exhibition?: string
+  exhibition?: string | null
 }
 
 export default function RegisterExhibitionPage() {
   const params = useParams()
-  const exhibitionId = params?.exhibitionId as string
+  // так как папка называется [id]
+  const exhibitionId = params?.id ? String(params.id) : null
 
   const [arts, setArts] = useState<Art[]>([])
   const [selected, setSelected] = useState<string[]>([])
@@ -31,38 +32,39 @@ export default function RegisterExhibitionPage() {
   const [saving, setSaving] = useState(false)
   const [acceptAGB, setAcceptAGB] = useState(false)
 
-useEffect(() => {
-  const fetchArts = async () => {
-    if (!auth.currentUser) {
-      setLoading(false) // <– фикс!
-      return
-    }
-    try {
-      const q = query(
-        collection(db, "arts"),
-        where("authorId", "==", auth.currentUser.uid)
-      )
-      const snap = await getDocs(q)
-      const list: Art[] = []
-      snap.forEach((d) => {
-        const data = d.data() as Art
-        list.push({ ...data, id: d.id })
-      })
-      setArts(list)
+  useEffect(() => {
+    const fetchArts = async () => {
+      if (!auth.currentUser) {
+        setLoading(false)
+        return
+      }
+      try {
+        const q = query(
+          collection(db, "arts"),
+          where("authorId", "==", auth.currentUser.uid)
+        )
+        const snap = await getDocs(q)
+        const list: Art[] = []
+        snap.forEach((d) => {
+          const data = d.data() as Art
+          list.push({ ...data, id: d.id })
+        })
+        setArts(list)
 
-      // если у картины уже стоит эта выставка → отмечаем чекбокс
-      const preSelected = list
-        .filter((art) => art.exhibition === exhibitionId)
-        .map((art) => art.id)
-      setSelected(preSelected)
-    } catch (err) {
-      console.error(err)
+        // выставляем выбранные, если уже есть эта выставка
+        if (exhibitionId) {
+          const preSelected = list
+            .filter((art) => art.exhibition === exhibitionId)
+            .map((art) => art.id)
+          setSelected(preSelected)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+      setLoading(false)
     }
-    setLoading(false)
-  }
-  fetchArts()
-}, [exhibitionId, auth.currentUser])
-
+    fetchArts()
+  }, [exhibitionId, auth.currentUser])
 
   const toggleSelect = (id: string) => {
     setSelected((prev) =>
@@ -75,11 +77,15 @@ useEffect(() => {
       alert("Bitte AGB akzeptieren")
       return
     }
+    if (!exhibitionId) {
+      alert("Fehler: Ungültige Ausstellung")
+      return
+    }
+
     setSaving(true)
     try {
       for (const art of arts) {
         const artRef = doc(db, "arts", art.id)
-        // если выбрана → ставим выставку, если нет → убираем
         if (selected.includes(art.id)) {
           await updateDoc(artRef, { exhibition: exhibitionId })
         } else {
@@ -99,7 +105,7 @@ useEffect(() => {
       <NavbarDe />
       <div className="max-w-3xl mx-auto p-6 pt-20 text-white">
         <h1 className="text-2xl font-bold mb-6">
-          Registrierung für Ausstellung {exhibitionId}
+          Registrierung für Ausstellung 
         </h1>
 
         {loading ? (
