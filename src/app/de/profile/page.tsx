@@ -6,7 +6,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import AvatarUploader from "@/components/avatarUpload";
 import { IoMdAdd } from "react-icons/io";
-import { logout } from "@/utils/logOutDe";
+
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/navbarDe";
 import FooterDe from "@/components/footerDe";
@@ -155,12 +155,7 @@ export default function ProfilePage() {
       </div>
 {/* menu */}
     <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20 flex flex-row gap-5">
-      <button
-      onClick={logout}
-      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
-    >
-      Abmelden
-    </button>
+      
       <a href="profile/add-painting" className="w-60 h-15  bg-gradient-to-r from-[#ff99fa] to-[#f429ff] rounded flex justify-center  items-center">
          
          <div className=" flex  justify-center"> Neues Gemälde hinzufügen</div>
@@ -173,21 +168,27 @@ export default function ProfilePage() {
           <>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Gemälde</h2>
             {artworks.length === 0 ? (
-              <p className="text-gray-500 text-sm">
-                Bisher wurde noch kein Gemälde veröffentlicht.
-              </p>
+              
+                <a href="/de/profile/add-painting/" className="block">
+                  <img src="/images/add-painting.png" alt="" className="max-w-[100%]" />
+                </a>
+              
+              
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <a href="/de/profile/add-painting/" className="block">
+                  <img src="/images/add-painting.png" alt="" className="max-w-[100%]" />
+                </a>
                 {artworks.map(art => (
                    <a
           href={'/de/gallery/arts/' + art.id}
           key={art.id}
-          className="rounded-sm overflow-hidden"
+          className="rounded-sm overflow-hidden max-w-[100%]"
         >
           <img
             src={art.imageUrl}
             alt={art.title}
-            className="w-full h-64 object-cover"
+            className="w-full h-64 object-cover "
           />
           <div className="pt-4 pl-0.5">
             <h2 className="text-lg font-semibold">{art.title}</h2>

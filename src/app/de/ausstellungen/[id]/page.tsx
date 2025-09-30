@@ -140,7 +140,7 @@ export default function ExhibitionPage() {
               ></iframe>
             </div>
           ) : (
-            <p className="text-gray-300">{s.text}</p>
+            <p className="text-gray-300"></p>
           )}
               </div>
             ))}

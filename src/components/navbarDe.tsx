@@ -51,7 +51,7 @@ export default function Navbar() {
   return (
     <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[2] bg-[#0A0A0A]">
       <div className="flex justify-between items-center h-full w-full contaner md:px-20 px-8">
-        <Link href={"/"}>
+        <Link href={"/de"}>
           <div className="uppercase xl:text-xl sm:text-base">
             <img src="/images/title.png" alt="" className="w-[70%]" />
           </div>
@@ -71,11 +71,16 @@ export default function Navbar() {
             </Link>
 
             {user ? (
+              <div className="flex flex-row gap-15" >
               <Link href="/de/profile/">
                 <li className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide">
                   Profil
                 </li>
               </Link>
+              <Link href="/de/profile/settings">
+                <img src="/images/gir.png" alt="SETTINGS" className="w-6" />
+              </Link>
+              </div>
             ) : (
               <Link href="/de/sign-up">
                 <li className="uppercase hover:underline  xl:text-xl text-white sm:text-base Libre_wide">
@@ -116,17 +121,26 @@ export default function Navbar() {
                 </li>
               </Link>
               {user ? (
-                <Link href="/de/profile/">
+                <div className="flex flex-col gap-4">
+                <Link href="/de/profile/"> 
                   <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
                     Profil
                   </li>
                 </Link>
+                 <Link href="/de/profile/settings/">
+                  <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                    Einstellungen
+                  </li>
+                </Link>
+                </div>
               ) : (
                 <Link href="/de/sign-up">
                   <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
                     Registrieren
                   </li>
                 </Link>
+                
+                
               )}
             </ul>
           </div>

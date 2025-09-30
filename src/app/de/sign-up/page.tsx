@@ -274,8 +274,8 @@ export default function SignUpPage() {
     />
     <span className="text-sm text-gray-100">
       Ich akzeptiere{" "}
-      <a href="/terms" className="underline text-orange-500" target="_blank">
-        die Nutzungsvereinbarung
+      <a href="/de/agb" className="underline text-orange-500" target="_blank">
+        die AGB
       </a>
     </span>
     </div>

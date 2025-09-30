@@ -1,255 +1,312 @@
 "use client";
 
 import { useState } from "react";
-import { db, storage, auth, } from "@/firebase/config";
+import { db, storage, auth } from "@/firebase/config";
 import { collection, addDoc, Timestamp, doc, getDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { User } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import NavbarDe from "@/components/navbarDe";
 import FooterDe from "@/components/footerDe";
-import Navbar from "@/components/navbarDe";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from "next/navigation";
 
 
-const canvasOptions = [
+const materialOptions = [
   "Leinwand", "Papier", "Karton", "Stoff", "Holz", "Gips",
   "Leinwandpapier", "MDF-Platten", "Pergament", "Kunststoff", "Ton",
   "Wachs", "Stein", "Metall", "Beton", "Plastilin", "Modelliermasse",
   "Polymer Clay", "Keramik", "Leder", "Glas"
 ];
 
-const exhibitionOptions = [
-  "29.10.2025"
-];
-
-
-
 const paintOptions = [
-  "Ölfarben", "Acrylfarben", "Gouachefarben", "Aquarellfarben", "Tusche",
-  "Enkaustik", "Sprühfarben", "Kaseinfarben", "Lackfarben", "Alkydfarben",
-  "Freskotechnik", "Airbrushfarben"
+  "Ölfarben", "Acrylfarben", "Gouachefarben", "Aquarellfarben", "Lackfarben",
+  "Tusche", "Enkaustik", "Sprühfarben", "Kaseinfarben", "Airbrushfarben",
+  "Alkydfarben", "Freskotechnik"
 ];
-
-interface UserProfile {
-  userUid : string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  bio?: string;
-  username: string;
-  isArtist: boolean;
-  avatarUrl?: string;
-}
 
 export default function AddArtPage() {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [exhibition, setExhibitionDate] = useState("");
-  const [canvasType, setCanvasType] = useState("");
-  const [status, setStatus] = useState("");
-  const [authorUsername, setAuthorUsername] = useState("");
-  const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
-  const [height, setHeight] = useState<number>(0);
-  const [width, setWidth] = useState<number>(0);
-  const [price, setPrice] = useState<number>(0);
-  const [forSale, setForSale] = useState(true);
+  const [price, setPrice] = useState<number | null>(null);
+  const [forSale, setForSale] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [acceptAGB, setAcceptAGB] = useState(false);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
+  const [year, setYear] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
+  const [width, setWidth] = useState<number | null>(null);
+  const [creationDate, setCreationDate] = useState<Date | null>(null);
 
-  const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<UserProfile | null>(null);
-
-  const handlePaintToggle = (paint: string) => {
-    setSelectedPaints(prev =>
-      prev.includes(paint) ? prev.filter(p => p !== paint) : [...prev, paint]
+  // toggle-функции
+  const handleToggle = (list: string[], setList: any, value: string) => {
+    setList((prev: string[]) =>
+      prev.includes(value) ? prev.filter((x) => x !== value) : [...prev, value]
     );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser) return alert("Вы должны войти в аккаунт");
-    if (!imageFile) return alert("Выберите изображение");
+    if (!auth.currentUser) return alert("Sie müssen eingeloggt sein.");
+    if (!imageFile) return alert("Bitte wählen Sie ein Bild aus.");
+    if (!acceptAGB) return alert("Sie müssen die AGB akzeptieren.");
 
     setLoading(true);
     try {
-      // Загрузка картинки в Firebase Storage
-      const imageRef = ref(storage, `arts/${auth.currentUser.uid}/${imageFile.name}`);
-      await uploadBytes(imageRef, imageFile);
-      const imageUrl = await getDownloadURL(imageRef);
+      const imageRef = ref(
+        storage,
+        `arts/${auth.currentUser.uid}/${imageFile.name}`
+      );
+      const uploadTask = uploadBytesResumable(imageRef, imageFile);
 
-
-      let username = "";
-      if (auth.currentUser) {
-              const snap = await getDoc(doc(db, "users", auth.currentUser.uid));
-      if (snap.exists()) {
-        const data = snap.data();
-        console.log(data.username)
-        username = data.username ?? "";
-      }
-                  }
-
-      // Добавление документа в Firestore
-      await addDoc(collection(db, "arts"), {
-        title,
-        description,
-        exhibition,
-        authorId: auth.currentUser.uid,
-        authorUsername: username,
-        canvasType,
-        paints: selectedPaints,
-        height,
-        width,
-        price,
-        forSale,
-        imageUrl,
-        // status,
-        createdAt: Timestamp.now()
+      uploadTask.on("state_changed", (snapshot) => {
+        const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(Math.round(percent));
       });
 
-      alert("Картина успешно добавлена!");
-      // Очистка формы
-      setTitle("");
-      setDescription("");
-      setExhibitionDate("");
-      setCanvasType("");
-      setSelectedPaints([]);
-      setHeight(0);
-      setWidth(0);
-      setPrice(0);
-      setForSale(true);
-      setImageFile(null);
+      await new Promise<void>((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          null,
+          reject,
+          async () => {
+            const imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+
+            // получаем username
+            let username = "";
+            const snap = await getDoc(
+              doc(db, "users", auth.currentUser!.uid)
+            );
+            if (snap.exists()) username = snap.data().username ?? "";
+
+            // сохраняем картину
+            await addDoc(collection(db, "arts"), {
+              title,
+              description,
+              authorId: auth.currentUser!.uid,
+              authorUsername: username,
+              materials: selectedMaterials,
+              paints: selectedPaints,
+              creationDate: creationDate
+                ? Timestamp.fromDate(creationDate)
+                : null,
+              height,
+              width,
+              price: forSale ? price : null,
+              forSale,
+              imageUrl,
+              createdAt: Timestamp.now(),
+            });
+
+            alert("Das Kunstwerk wurde erfolgreich hinzugefügt!");
+            setTitle("");
+            setDescription("");
+            setPrice(null);
+            setForSale(false);
+            setImageFile(null);
+            setAcceptAGB(false);
+            setProgress(0);
+            setLoading(false);
+            resolve();
+            router.refresh();
+          }
+        );
+      });
     } catch (err) {
       console.error(err);
-      alert("Ошибка при добавлении картины");
+      alert("Fehler beim Hochladen.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <>
-    <Navbar></Navbar>
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4 text-black pt-20">
-      <h1 className="text-2xl font-bold">Добавить картину</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-
-        <input
-          type="text"
-          placeholder="Название"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        />
-
-        <textarea
-          placeholder="Описание"
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        />
-        <label className="font-semibold">Выставка</label>
-        <select
-            value={exhibition}
-            onChange={e => setExhibitionDate(e.target.value)}
-            className="w-full p-2 border rounded"
+      <NavbarDe />
+      <div className="max-w-2xl mx-auto p-6 bg-black rounded-xl shadow-md space-y-4 text-white pt-20">
+        <h1 className="text-2xl font-bold">Kunstwerk hinzufügen</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Titel"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2 border rounded bg-zinc-900 text-white"
             required
-          >
-            <option value="">Выберите тип</option>
-            {exhibitionOptions.map(c => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        
+          />
 
-        <div>
-          <label className="font-semibold">Тип холста:</label>
-          <select
-            value={canvasType}
-            onChange={e => setCanvasType(e.target.value)}
-            className="w-full p-2 border rounded"
+          <textarea
+            placeholder="Beschreibung"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border rounded bg-zinc-900 text-white"
             required
-          >
-            <option value="">Выберите тип</option>
-            {canvasOptions.map(c => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        </div>
+          />
 
-        <div>
-          <label className="font-semibold">Краски:</label>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {paintOptions.map(p => (
-              <button
-                type="button"
-                key={p}
-                onClick={() => handlePaintToggle(p)}
-                className={`px-3 py-1 rounded ${
-                  selectedPaints.includes(p) ? "bg-red-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                {p}
-              </button>
-            ))}
+          <div>
+            <label className="font-semibold">Materialart:</label>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {materialOptions.map((m) => (
+                <button
+                  type="button"
+                  key={m}
+                  onClick={() =>
+                    handleToggle(selectedMaterials, setSelectedMaterials, m)
+                  }
+                  className={`px-3 py-1 rounded ${
+                    selectedMaterials.includes(m)
+                      ? "bg-purple-600 text-white"
+                      : "bg-purple-300 text-black"
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-2">
-          <input
-            type="number"
-            placeholder="Высота см"
-            
-            onChange={e => setHeight(Number(e.target.value))}
-            className="w-1/2 p-2 border rounded"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Ширина см"
-            
-            onChange={e => setWidth(Number(e.target.value))}
-            className="w-1/2 p-2 border rounded"
-            required
-          />
-        </div>
+          <div>
+            <label className="font-semibold">Farbart:</label>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {paintOptions.map((p) => (
+                <button
+                  type="button"
+                  key={p}
+                  onClick={() =>
+                    handleToggle(selectedPaints, setSelectedPaints, p)
+                  }
+                  className={`px-3 py-1 rounded ${
+                    selectedPaints.includes(p)
+                      ? "bg-red-600 text-white"
+                      : "bg-red-400 text-black"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
 
-        <input
-          type="number"
-          placeholder="цена"
-          
-          onChange={e => setPrice(Number(e.target.value))}
-          className="w-full p-2 border rounded"
-          required
-        />
+          <div>
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Entstehungsdatum:</label>
+              <DatePicker
+                selected={creationDate}
+                onChange={(date: Date | null) => setCreationDate(date)}
+                dateFormat="dd.MM.yyyy"
+                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                placeholderText="Datum wählen"
+                showYearDropdown
+                scrollableYearDropdown
+              />
+            </div>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <label>Продается:</label>
-          <input
-            type="checkbox"
-            checked={forSale}
-            onChange={e => setForSale(e.target.checked)}
-          />
-        </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={forSale}
+              onChange={(e) => setForSale(e.target.checked)}
+            />
+            <label>Zum Verkauf</label>
+          </div>
 
-        <div>
-          <label className="text-black">Изображение:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={e => e.target.files && setImageFile(e.target.files[0])}
-            required
-          />
-        </div>
+          {forSale && (
+            <input
+              type="number"
+              placeholder="Preis (€)"
+              value={price ?? ""}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              className="w-full p-2 border rounded bg-zinc-900 text-white"
+              required={forSale}
+            />
+          )}
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded"
-          disabled={loading}
-        >
-          {loading ? "Сохраняем..." : "Добавить картину"}
-        </button>
-      </form>
-    </div>
-    <FooterDe></FooterDe>
-  </>
+          <div className="flex gap-2">
+            <div className="w-1/2">
+              <label className="font-semibold">Höhe (cm):</label>
+              <input
+                type="number"
+                placeholder="z.B. 80"
+                value={height ?? ""}
+                onChange={(e) => setHeight(Number(e.target.value))}
+                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                required
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="font-semibold">Breite (cm):</label>
+              <input
+                type="number"
+                placeholder="z.B. 60"
+                value={width ?? ""}
+                onChange={(e) => setWidth(Number(e.target.value))}
+                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label>Bild hochladen:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                e.target.files && setImageFile(e.target.files[0])
+              }
+              required
+              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4
+                         file:rounded file:border-0 file:text-sm
+                         file:font-semibold file:bg-orange-500 file:text-white
+                         hover:file:bg-orange-600"
+            />
+          </div>
+
+          {imageFile && (
+            <img
+              src={URL.createObjectURL(imageFile)}
+              alt="preview"
+              className="w-full max-h-64 object-contain rounded"
+            />
+          )}
+
+          {loading && (
+            <div className="w-full bg-gray-700 rounded h-4">
+              <div
+                className="bg-blue-600 h-4 rounded"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={acceptAGB}
+              onChange={(e) => setAcceptAGB(e.target.checked)}
+              required
+            />
+            <label>
+              Ich akzeptiere die{" "}
+              <a href="/agb" className="text-blue-400 underline">
+                AGB
+              </a>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white p-2 rounded"
+            disabled={loading}
+          >
+            {loading ? `Lädt... ${progress}%` : "Kunstwerk hinzufügen"}
+          </button>
+        </form>
+      </div>
+      <FooterDe />
+    </>
   );
 }
