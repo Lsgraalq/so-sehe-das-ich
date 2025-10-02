@@ -88,7 +88,7 @@ export default function AddArtPage() {
               description,
               authorId: auth.currentUser!.uid,
               authorUsername: username,
-              materials: selectedMaterials,
+              canvasType: selectedMaterials,
               paints: selectedPaints,
               creationDate: creationDate
                 ? Timestamp.fromDate(creationDate)

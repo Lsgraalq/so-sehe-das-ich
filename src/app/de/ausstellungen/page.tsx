@@ -44,7 +44,7 @@ function Page() {
         </h2>
        </div>
 
-      <div className="max-w-[80%] mx-auto flex flex-col pt-10 gap-20">
+      <div className="max-w-[80%] mx-auto flex flex-col pt-30 gap-20">
         {exhibitions.map(ex => (
           <div key={ex.id} className=" flex flex-col gap-5">
             <a 
@@ -54,7 +54,7 @@ function Page() {
               <img 
                 src={ex.titleImage} 
                 alt={ex.title} 
-                className="max-h-[80vh] w-full object-cover rounded"
+                className=" w-full object-cover rounded"
               />
             </a>
 

@@ -51,7 +51,7 @@ function ArtGallery() {
           <h1 className="text-left mx-auto  text-6xl font-bold flex flex-col">KUNST <p className="flex">HUB <img src="/images/kunsthubeye.png" alt="Auge" className="flex md:hidden" /></p></h1>
           
           <h2 className="text-sm text-center mx-auto font-bold max-w-[80%]">
-            Dies ist die Galerie. Hier finden Sie alle Kunstwerke, die jemals auf unseren Ausstellungen präsentiert oder einfach auf die Website hochgeladen wurden.
+            Das ist KunstHUB! Hier finden Sie alle Kunstwerke, die jemals auf unseren Ausstellungen gezeigt wurden oder einfach auf die Website hochgeladen wurden.
           </h2>
         </div>
     </div>
@@ -62,7 +62,7 @@ function ArtGallery() {
           <h1 className="text-center mx-auto  text-6xl font-bold flex flex-col md:text-[60px] xl:text-[100px]">KUNSTHUB</h1>
           
           <h2 className="text-center mx-auto font-semibold max-w-[80%] text-3xl">
-            Dies ist die Galerie. Hier finden Sie alle Kunstwerke, die jemals auf unseren Ausstellungen präsentiert oder einfach auf die Website hochgeladen wurden.
+            Das ist KunstHUB! Hier finden Sie alle Kunstwerke, die jemals auf unseren Ausstellungen gezeigt wurden oder einfach auf die Website hochgeladen wurden.
           </h2>
         </div>
     </div>

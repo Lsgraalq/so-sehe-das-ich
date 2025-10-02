@@ -154,13 +154,13 @@ export default function ProfilePage() {
         </div>
       </div>
 {/* menu */}
-    <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20 flex flex-row gap-5">
+    {/* <div className="p-6 max-w-md mx-auto bg-black rounded-xl shadow-md pt-20 flex flex-row gap-5">
       
       <a href="profile/add-painting" className="w-60 h-15  bg-gradient-to-r from-[#ff99fa] to-[#f429ff] rounded flex justify-center  items-center">
          
          <div className=" flex  justify-center"> Neues Gemälde hinzufügen</div>
       </a>
-    </div>
+    </div> */}
 
     {/* artworks */}
     <div className="max-w-6xl mx-auto mt-10 px-4">
