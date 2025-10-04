@@ -1,9 +1,10 @@
 import ArtClient from "@/components/ArtClient"
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default function ArtPage({ params }: Props) {
-  return <ArtClient id={params.id} />
+export default async function ArtPage({ params }: Props) {
+  const { id } = await params   
+  return <ArtClient id={id} />
 }
