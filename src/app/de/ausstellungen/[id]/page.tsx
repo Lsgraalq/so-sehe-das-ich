@@ -10,6 +10,8 @@ import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
 import { useRouter } from "next/navigation"
 import Carousel from "@/components/slider"
+import Loader from "@/components/loader"
+
 
 interface Section {
   title: string
@@ -77,8 +79,8 @@ export default function ExhibitionPage() {
     return () => unsubscribe()
   }, [])
 
-  if (loading) return <p className="text-center text-gray-400">⏳ Загружается...</p>
-  if (!exhibition) return <p className="text-center text-red-400">❌ Выставка не найдена</p>
+  if (loading) return <Loader></Loader>
+  if (!exhibition) return <p className="text-center text-red-400">❌Error</p>
 
   return (
     <>

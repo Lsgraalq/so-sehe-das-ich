@@ -9,28 +9,69 @@ import {
   query,
   where,
   doc,
+  getDoc,
   updateDoc,
+  arrayUnion, 
+  arrayRemove
 } from "firebase/firestore"
 import NavbarDe from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
-
+import { onAuthStateChanged } from "firebase/auth"
 interface Art {
+  authorId: string
   id: string
   title: string
   imageUrl: string
   exhibition?: string | null
 }
 
+
+interface UserData {
+  userUid : string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  bio?: string;
+  username: string;
+  isArtist: boolean;
+  avatarUrl?: string;
+  createdAt: string;
+}
+
+interface Exhibition {
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  titleImage: string
+  carousel?: string[]
+  participants: string[]
+  arts: string[]
+}
+
+
 export default function RegisterExhibitionPage() {
   const params = useParams()
   // так как папка называется [id]
   const exhibitionId = params?.id ? String(params.id) : null
-
+  
   const [arts, setArts] = useState<Art[]>([])
   const [selected, setSelected] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [acceptAGB, setAcceptAGB] = useState(false)
+  const [exhibition, setExhibition] = useState<Exhibition | null>(null)
+  const [uid, setUid] = useState<string | null>(null)
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setUid(user ? user.uid : null)
+    })
+    return unsubscribe
+  }, [])
+
 
   useEffect(() => {
     const fetchArts = async () => {
@@ -51,6 +92,8 @@ export default function RegisterExhibitionPage() {
         })
         setArts(list)
 
+
+        
         // выставляем выбранные, если уже есть эта выставка
         if (exhibitionId) {
           const preSelected = list
@@ -66,11 +109,40 @@ export default function RegisterExhibitionPage() {
     fetchArts()
   }, [exhibitionId, auth.currentUser])
 
+
+  useEffect(() => {
+    const fetchExhibitions = async () => {
+      if (!auth.currentUser) {
+        setLoading(false)
+        return
+      }
+      try {
+        const ref = doc(db, "exhibitions", exhibitionId!)
+        const snap = await getDoc(ref)
+          if (snap.exists()) {
+    const exhibition: Exhibition = {
+      id: snap.id,
+      ...(snap.data() as Omit<Exhibition, "id">) // все поля кроме id
+    }
+
+    setExhibition(exhibition)
+    }
+
+      } catch (err) {
+        console.error(err)
+      }
+      setLoading(false)
+    }
+    fetchExhibitions()
+  }, [exhibitionId, auth.currentUser])
+
   const toggleSelect = (id: string) => {
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     )
   }
+
+
 
   const handleSave = async () => {
     if (!acceptAGB) {
@@ -86,11 +158,33 @@ export default function RegisterExhibitionPage() {
     try {
       for (const art of arts) {
         const artRef = doc(db, "arts", art.id)
+        const exhbRef = doc(db, "exhibitions", exhibitionId)
         if (selected.includes(art.id)) {
           await updateDoc(artRef, { exhibition: exhibitionId })
+         await updateDoc(exhbRef, {
+          arts: arrayUnion(art.id),
+          participants: arrayUnion(uid)
+        })
         } else {
           await updateDoc(artRef, { exhibition: null })
-        }
+          await updateDoc(exhbRef, {arts: arrayRemove(art.id),})
+
+          if (exhibition) {
+                  const stillHasArts = arts.some(
+                    (a) => selected.includes(a.id) && a.authorId === uid
+                  )
+            if (!uid) {
+            alert("Kein Benutzer angemeldet")
+            return
+          }
+            if (!stillHasArts) {
+            await updateDoc(exhbRef, {
+              participants: arrayRemove(uid),
+            })
+          } 
+          }
+          
+    }
       }
       alert("Gespeichert!")
     } catch (err) {
@@ -103,7 +197,7 @@ export default function RegisterExhibitionPage() {
   return (
     <>
       <NavbarDe />
-      <div className="max-w-3xl mx-auto p-6 pt-20 text-white">
+      <div className="md:max-w-[80%] mx-auto p-6 pt-20 text-white text-center">
         <h1 className="text-2xl font-bold mb-6">
           Registrierung für Ausstellung 
         </h1>
@@ -111,29 +205,35 @@ export default function RegisterExhibitionPage() {
         {loading ? (
           <p>Lädt...</p>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-5 ">
             {arts.map((art) => (
-              <div
+              <label
                 key={art.id}
-                className="flex items-center gap-4 bg-zinc-900 p-4 rounded"
+                className="flex flex-col"
               >
-                <input
+               
+                <img
+              src={art.imageUrl}
+              alt={art.title}
+              className="w-full h-64 object-cover"
+            />
+            
+                <span className="text-lg">{art.title}</span>
+                 <input
                   type="checkbox"
+                  className="peer hidden"
                   checked={selected.includes(art.id)}
                   onChange={() => toggleSelect(art.id)}
                 />
-                <img
-                  src={art.imageUrl}
-                  alt={art.title}
-                  className="w-24 h-24 object-cover rounded"
-                />
-                <span className="text-lg">{art.title}</span>
-              </div>
+                <span className="w-5 h-5 mx-auto rounded border border-gray-400 peer-checked:bg-purple-600 peer-checked:border-purple-600 flex items-center justify-center transition">
+    ✓
+  </span>
+              </label>
             ))}
           </div>
         )}
 
-        <div className="flex items-center gap-2 mt-6">
+        <div className="flex items-center gap-2 mt-6 ">
           <input
             type="checkbox"
             checked={acceptAGB}
@@ -150,7 +250,7 @@ export default function RegisterExhibitionPage() {
         <button
           onClick={handleSave}
           disabled={saving || !acceptAGB}
-          className="mt-4 px-6 py-2 rounded bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white disabled:opacity-50"
+          className="mt-4 px-6 py-2 rounded bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white disabled:opacity-50 "
         >
           {saving ? "Speichern..." : "Speichern"}
         </button>

@@ -6,6 +6,7 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { db } from "@/firebase/config"
 import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
+import Loader from "@/components/loader"
 
 export default function AuthorProfilePage() {
   const [userData, setUserData] = useState<any>(null)
@@ -47,7 +48,7 @@ export default function AuthorProfilePage() {
     fetchData()
   }, [uid])
 
-  if (loading) return <p className="text-center mt-10 text-gray-500">Profil wird geladen...</p>
+  if (loading) return <Loader></Loader>
   if (!userData) return <p className="text-center mt-10 text-red-500">Benutzer nicht gefunden</p>
 
   // Datum formatieren

@@ -6,12 +6,12 @@ import React from 'react'
 import Navbar from '@/components/navbarDe'
 import FooterDe from '@/components/footerDe'
 import {Art} from "@/utils/fetchArts";
-
+import Loader from "@/components/loader";
 function ArtGallery() {
   const [arts, setArts] = useState<Art[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 16;
+  const itemsPerPage = 20;
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
@@ -41,7 +41,7 @@ function ArtGallery() {
     loadArts();
   }, []);
 
-  if (loading) return <p className="text-center text-gray-500">Wird geladen...</p>;
+  if (loading) return <Loader></Loader>
   return (
     <>
     <Navbar></Navbar>
@@ -66,13 +66,15 @@ function ArtGallery() {
           </h2>
         </div>
     </div>
+
+    {/* gallery */}
     <div className="p-6 max-w-5xl xl:max-w-[90%] mx-auto">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 xl:gap-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-6 xl:gap-10">
         {currentArts.map((art) => (
           <a
             href={'/de/gallery/arts/' + art.id}
             key={art.id}
-            className="rounded-sm overflow-hidden"
+            className="rounded-sm overflow-hidden max-w-[100%]"
           >
             <img
               src={art.imageUrl}

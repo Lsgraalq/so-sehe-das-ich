@@ -14,7 +14,10 @@ interface Exhibition {
   date: string
   time: string
   titleImage: string
-  carousel?: string[] // массив фоток
+  carousel?: string[]
+  participants: string[]
+  arts: string[]
+  city: string
 }
 
 function Page() {
@@ -49,7 +52,7 @@ function Page() {
           <div key={ex.id} className=" flex flex-col gap-5">
             <a 
               href={`/de/ausstellungen/${ex.id}`} 
-              className="flex items-center justify-center h-screen w-full"
+              className="flex items-center justify-center  w-full"
             >
               <img 
                 src={ex.titleImage} 
@@ -69,10 +72,10 @@ function Page() {
 
             <ul className=" grid grid-cols-2 grid-rows-3 md:text-2xl gap-2 text-sm">
               <li className=' col-span-1'><strong>Datum:</strong>{ex.date}</li>
-              <li className=' col-span-1'><strong>Anzahl der Teilnehmer:</strong>0</li>
+              <li className=' col-span-1'><strong>Anzahl der Teilnehmer:</strong> {ex.participants.length}</li>
               <li className=' col-span-1'><strong>Uhrzeit:</strong> {ex.time}</li>
-              <li className=' col-span-1'><strong>Anzahl der Werke:</strong> 0</li>
-              <li className=' col-span-1'><strong>Stadt:</strong> Halle (Saale)</li>
+              <li className=' col-span-1'><strong>Anzahl der Werke:</strong> {ex.arts.length}</li>
+              <li className=' col-span-1'><strong>Stadt:</strong>{ex.city}</li>
             </ul>
           </div>
         ))}

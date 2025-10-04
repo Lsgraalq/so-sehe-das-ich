@@ -100,7 +100,7 @@ export default function AddArtPage() {
               imageUrl,
               createdAt: Timestamp.now(),
             });
-
+           
             alert("Das Kunstwerk wurde erfolgreich hinzugefügt!");
             setTitle("");
             setDescription("");
@@ -110,8 +110,14 @@ export default function AddArtPage() {
             setAcceptAGB(false);
             setProgress(0);
             setLoading(false);
+            setSelectedMaterials([]);
+            setSelectedPaints([]);
+            setYear(null);
+            setHeight(null);
+            setWidth(null);
+            setCreationDate(null);
             resolve();
-            router.refresh();
+
           }
         );
       });

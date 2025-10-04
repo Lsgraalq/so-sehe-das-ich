@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
-
+import Loader from "@/components/loader"
 interface Section {
   title: string
   text: string
@@ -27,6 +27,8 @@ interface Exhibition {
   titleImage?: string
   carousel: string[]
   sections: Section[]
+  city: string
+  adress: string
 }
 
 export default function EditExhibitionPage() {
@@ -141,6 +143,8 @@ export default function EditExhibitionPage() {
         titleImage: exhibition.titleImage || "",
         carousel: exhibition.carousel || [],
         sections: exhibition.sections || [],
+        city: exhibition.city ?? "",
+        adress: exhibition.adress ?? "",
       })
       alert("✅ Выставка обновлена!")
       router.push(`/de/ausstellungen/${exhibition.id}`)
@@ -164,7 +168,7 @@ export default function EditExhibitionPage() {
 }
 
   if (loadingUser || loadingData) {
-    return <p className="text-center pt-20 text-gray-400">⏳ Загружается...</p>
+    return <Loader></Loader>
   }
 
   if (!exhibition) {
@@ -187,6 +191,7 @@ export default function EditExhibitionPage() {
           className="p-3 rounded bg-gray-900 border border-gray-700"
           placeholder="Название"
         />
+        
 
         <textarea
           value={exhibition.description}
@@ -194,6 +199,20 @@ export default function EditExhibitionPage() {
           className="p-3 rounded bg-gray-900 border border-gray-700 h-28"
           placeholder="Описание"
         />
+         <input
+          value={exhibition.city ?? ""}
+          onChange={(e) => setExhibition({ ...exhibition, city: e.target.value })}
+          className="p-3 rounded bg-gray-900 border border-gray-700 "
+          placeholder="город"
+        />
+
+      <input
+          value={exhibition.adress ?? ""}
+          onChange={(e) => setExhibition({ ...exhibition, adress: e.target.value })}
+          className="p-3 rounded bg-gray-900 border border-gray-700 "
+          placeholder="адресс"
+        />
+
 
         <div className="flex gap-4">
           <input
@@ -210,6 +229,7 @@ export default function EditExhibitionPage() {
             placeholder="Например: 13:00–17:00"
           />
         </div>
+        
 
         <label className="flex items-center gap-2">
           <input

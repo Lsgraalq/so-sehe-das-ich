@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { db, storage } from "@/firebase/config"
-import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore"
+import { collection, addDoc, serverTimestamp, doc, getDoc, } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 as uuidv4 } from "uuid"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -14,6 +14,8 @@ export default function CreateExhibitionForm() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState("")
+  const [city, setCity] = useState("")
+  const [adress, setAdress] = useState("")
   const [time, setTime] = useState("")
   const [actual, setActual] = useState(false)
   const [titleImage, setTitleImage] = useState<string>("")
@@ -121,6 +123,8 @@ export default function CreateExhibitionForm() {
       setActual(false)
       setTitleImage("")
       setCarousel([])
+      setAdress("")
+      setCity("")
       setSections([])
       router.push(`/de/ausstellungen/`)
     } catch (err) {
@@ -171,6 +175,20 @@ export default function CreateExhibitionForm() {
           placeholder="Например: 13:00–17:00"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+          className="p-2 rounded bg-gray-800 border border-gray-700"
+        />
+         <input
+          type="text"
+          placeholder="Макеевка"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="p-2 rounded bg-gray-800 border border-gray-700"
+        />
+         <input
+          type="text"
+          placeholder="проспект победы 52б"
+          value={adress}
+          onChange={(e) => setAdress(e.target.value)}
           className="p-2 rounded bg-gray-800 border border-gray-700"
         />
 
