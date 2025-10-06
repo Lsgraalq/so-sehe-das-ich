@@ -51,7 +51,7 @@ export default function AdminFAQPage() {
     <>
       <Navbar />
       <AdminGuard />
-      <div className="max-w-3xl mx-auto p-6 text-white">
+      <div className="max-w-3xl mx-auto p-6 text-white pt-20">
         <h1 className="text-3xl font-bold mb-6">⚙️ FAQ Admin (Deutsch)</h1>
 
         {/* Добавление нового */}
