@@ -43,7 +43,7 @@ export default function FAQPage() {
   return (
        <>
    <Navbar></Navbar>
-<div className="max-w-3xl mx-auto p-6 text-white">
+<div className="max-w-3xl mx-auto p-6 text-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6">❓ FAQ</h1>
       <div className="space-y-4">
         {faqs.map(faq => (
