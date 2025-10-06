@@ -33,7 +33,7 @@ export default function AuthorProfilePage() {
         setUserData({ ...data, id: userSnap.id })
 
         if (data.isArtist) {
-          const artworksQuery = query(collection(db, "arts"), where("authorId", "==", uid))
+          const artworksQuery = query(collection(db, "arts"), where("userId", "==", uid))
           const artSnap = await getDocs(artworksQuery)
           const arts = artSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
           setArtworks(arts)

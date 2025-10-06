@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation"
 
 
 interface Art {
-  authorId: string
+  userId: string
   id: string
   title: string
   imageUrl: string
@@ -86,7 +86,7 @@ export default function RegisterExhibitionPage() {
       try {
         const q = query(
           collection(db, "arts"),
-          where("authorId", "==", auth.currentUser.uid)
+          where("userId", "==", auth.currentUser.uid)
         )
         const snap = await getDocs(q)
         const list: Art[] = []
@@ -175,7 +175,7 @@ export default function RegisterExhibitionPage() {
 
           if (exhibition) {
                   const stillHasArts = arts.some(
-                    (a) => selected.includes(a.id) && a.authorId === uid
+                    (a) => selected.includes(a.id) && a.userId === uid
                   )
             if (!uid) {
             alert("Kein Benutzer angemeldet")

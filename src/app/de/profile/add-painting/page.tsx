@@ -85,7 +85,7 @@ export default function AddArtPage() {
             await addDoc(collection(db, "arts"), {
               title,
               description,
-              authorId: auth.currentUser!.uid,
+              userId: auth.currentUser!.uid,
               authorUsername: username,
               canvasType: selectedMaterials,
               paints: selectedPaints,

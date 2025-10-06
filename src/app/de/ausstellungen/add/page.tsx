@@ -112,8 +112,12 @@ export default function CreateExhibitionForm() {
         titleImage,
         carousel,
         sections,
-        participants: [],
+        participants: [],   // пустой список
+        arts: [],           // пустой список
+        city: city || "",   // строка (по умолчанию пустая)
+        adress: adress || "",
         createdAt: serverTimestamp(),
+        
       })
       alert("✅ Выставка успешно создана!")
       setTitle("")

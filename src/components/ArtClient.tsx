@@ -43,7 +43,7 @@ export default function ArtClient({ id }: { id: string }) {
         setArt(artData)
 
         // автор
-        const authorRef = doc(db, "users", artData.authorId)
+        const authorRef = doc(db, "users", artData.userId)
         const authorSnap = await getDoc(authorRef)
         if (authorSnap.exists()) {
           setAuthor(authorSnap.data() as Author)
@@ -84,7 +84,7 @@ export default function ArtClient({ id }: { id: string }) {
         <div className="text-xl flex flex-col gap-3 sm:min-w-[80%] sm:mx-auto min-w-[80%] mx-auto">
           <h1 className="font-bold">{art.title}</h1>
           {author && (
-            <p>Autor: <a href={`/de/artist/${art.authorId}`} className="underline">{author.username}</a></p>
+            <p>Autor: <a href={`/de/artist/${art.userId}`} className="underline">{author.username}</a></p>
           )}
           <span className="italic text-[#B3ABBE]">{art.description}</span>
           {art.canvasType && (
