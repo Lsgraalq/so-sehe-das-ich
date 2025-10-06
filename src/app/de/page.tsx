@@ -83,7 +83,7 @@ export default function Home() {
           </p>
           </div>
         </div>
-        <img src="/images/tsp.png" alt="" className="absolute sm:w-[80%] right-0 md:w-[60%] lg:w-[50%] bottom-30 z-[-1]"/>
+        <img src="/images/tsp.png" alt="" className="hidden sm:flex absolute sm:w-[80%] right-0 md:w-[60%] lg:w-[50%] bottom-30 z-[-1]"/>
       </div>
       
       
@@ -160,11 +160,11 @@ export default function Home() {
         <div className="lg:w-1/2 flex items-center justify-center"> <img src="/images/penisenko.png" alt="" className="hidden lg:flex" /> </div>
       </div>
     </section>
-    <section className="h-screen flex  justify-center items-center"  >
+    {/* <section className="h-screen flex  justify-center items-center"  >
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2484.788329907859!2d11.919315876877697!3d51.48039951267527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a67d325e0153af%3A0x4ac4d32d5080c663!2sNeust%C3%A4dter%20Passage%2013!5e0!3m2!1sru!2sua!4v1749472252311!5m2!1sru!2sua"
        width="80%" height="80%" 
         loading="lazy" className="mx-auto align justify-center "></iframe>
-    </section>
+    </section> */}
     <section className="min-h-screen "  >
       <div className="w-[80%] mx-auto pb-10">
         <div className="w-full ">

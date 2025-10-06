@@ -141,7 +141,13 @@ export default function Navbar() {
                 </Link>
                 
                 
+                
               )}
+              <Link href="/de/faq">
+                  <li onClick={handleNav} className="uppercase hover:underline Libre_wide">
+                    FAQ
+                  </li>
+                </Link>
             </ul>
           </div>
         </div>

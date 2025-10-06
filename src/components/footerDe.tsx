@@ -21,7 +21,7 @@ function FooterDe() {
                     <ul className="text-sm md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1">
                         <li><a href="/de/impressum" className="">Impressum</a></li>
                         <li><a href="/de/agb/" className="">AGB</a></li>
-
+        <li><a href="/de/kommissionsvertrag " className="">Kommissionsvertrag </a></li>
                         <li><a href="/de/datenschutzerklarung" className="">Datenshutzerklärung</a></li>
                     </ul>
                     <div className="flex flex-row gap-2">

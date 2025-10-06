@@ -33,7 +33,7 @@ export default function AddArtPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<number>(0);
-  const [acceptAGB, setAcceptAGB] = useState(false);
+  
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
   const [year, setYear] = useState<number | null>(null);
@@ -52,7 +52,6 @@ export default function AddArtPage() {
     e.preventDefault();
     if (!auth.currentUser) return alert("Sie müssen eingeloggt sein.");
     if (!imageFile) return alert("Bitte wählen Sie ein Bild aus.");
-    if (!acceptAGB) return alert("Sie müssen die AGB akzeptieren.");
 
     setLoading(true);
     try {
@@ -107,7 +106,6 @@ export default function AddArtPage() {
             setPrice(null);
             setForSale(false);
             setImageFile(null);
-            setAcceptAGB(false);
             setProgress(0);
             setLoading(false);
             setSelectedMaterials([]);
@@ -288,21 +286,7 @@ export default function AddArtPage() {
             </div>
           )}
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={acceptAGB}
-              onChange={(e) => setAcceptAGB(e.target.checked)}
-              required
-            />
-            <label>
-              Ich akzeptiere die{" "}
-              <a href="/agb" className="text-blue-400 underline">
-                AGB
-              </a>
-            </label>
-          </div>
-
+         
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white p-2 rounded"

@@ -28,6 +28,9 @@ interface Exhibition {
   carousel: string[]
   sections: Section[]
   createdAt?: any
+  participants: string[]
+  arts: string[]
+  city: string
 }
 
 export default function ExhibitionPage() {
@@ -109,8 +112,8 @@ export default function ExhibitionPage() {
                 <p className="">Uhrzeit: <strong>{exhibition.time}</strong></p>
             </div>
             <div className="flex flex-col gap-2 ">
-                <p className="">Anzahl der Teilnehmer: <strong>0</strong></p>
-                <p className="">Anzahl der Werke: <strong>0</strong></p>
+                <p className="">Anzahl der Teilnehmer: <strong>{exhibition.participants.length}</strong></p>
+                <p className="">Anzahl der Werke: <strong>{exhibition.arts.length}</strong></p>
             </div>
         </div>
         {/* <img src="/images/vika.png" alt="" className="max-w-[80%] m-10 md:max-w-[30%] md:mt-15 md:mb-15 " /> */}

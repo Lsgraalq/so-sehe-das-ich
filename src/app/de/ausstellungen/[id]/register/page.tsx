@@ -17,6 +17,9 @@ import {
 import NavbarDe from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
 import { onAuthStateChanged } from "firebase/auth"
+import { useRouter } from "next/navigation"
+
+
 interface Art {
   authorId: string
   id: string
@@ -52,6 +55,7 @@ interface Exhibition {
 
 
 export default function RegisterExhibitionPage() {
+  const router = useRouter()
   const params = useParams()
   // так как папка называется [id]
   const exhibitionId = params?.id ? String(params.id) : null
@@ -187,6 +191,7 @@ export default function RegisterExhibitionPage() {
     }
       }
       alert("Gespeichert!")
+      router.push("/de/gallery")
     } catch (err) {
       console.error(err)
       alert("Fehler beim Speichern")
@@ -233,17 +238,20 @@ export default function RegisterExhibitionPage() {
           </div>
         )}
 
-        <div className="flex items-center gap-2 mt-6 ">
+        <div className="flex items-center gap-2 mt-6 md:max-w-[51%] mx-auto">
           <input
             type="checkbox"
             checked={acceptAGB}
             onChange={(e) => setAcceptAGB(e.target.checked)}
           />
-          <label>
-            Ich akzeptiere die{" "}
-            <a href="/agb" className="underline text-blue-400">
-              AGB
+          <label className="text-xs md:text-sm text-left">
+            Ich bestätige, dass ich den  {" "}
+            <a href="/de/kommissionsvertrag " className="underline text-blue-400">
+             Kommissionsvertrag
             </a>
+            {" "}
+            gelesen habe und mit allen Bedingungen einverstanden bin.
+Ich bin über 18 Jahre alt und stimme der Verarbeitung meiner personenbezogenen Daten gemäß der Datenschutzerklärung zu.
           </label>
         </div>
 
