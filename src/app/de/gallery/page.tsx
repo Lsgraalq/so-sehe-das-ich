@@ -26,7 +26,7 @@ export type Art = {
   blurDataURL?: string;
 };
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 20;
 
 export default function ArtGallery() {
   const [arts, setArts] = useState<Art[]>([]);
