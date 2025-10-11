@@ -31,6 +31,7 @@ interface Exhibition {
   participants: string[]
   arts: string[]
   city: string
+  actual: boolean
 }
 
 export default function ExhibitionPage() {
@@ -100,7 +101,7 @@ export default function ExhibitionPage() {
           <h1 className="text-[32px] sm:text-6xl md:text-[66px] font-bold italic xl:text-[100px] 2xl:text-[120px]">{exhibition.title}</h1>
           <p className="text-[#C7B8CA] md:text-2xl text-sm">{exhibition.description}</p>
         </div>
-        {isArtist && (
+        {isArtist &&  exhibition.actual && (
           <div className="bg-[#9C88CD] w-55 h-10 rounded flex mx-auto md:w-100 md:h-17 xl:w-150 xl:h-20">
             <a href={`/de/ausstellungen/${id}/register`} className="text-sm md:text-2xl xl:text-4xl font-bold w-full mx-auto flex items-center justify-center">Zur Ausstellung anmelden</a>
             

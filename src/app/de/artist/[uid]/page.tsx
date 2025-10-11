@@ -7,9 +7,25 @@ import { db } from "@/firebase/config"
 import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
 import Loader from "@/components/loader"
+import { Timestamp } from "firebase/firestore";
+
+
+interface UserData {
+  userUid: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  bio?: string;
+  username: string;
+  isArtist: boolean;
+  avatarUrl?: string;
+  createdAt: string | Timestamp;
+  exhibitions: string[];
+}
+
 
 export default function AuthorProfilePage() {
-  const [userData, setUserData] = useState<any>(null)
+  const [userData, setUserData] = useState<UserData | null>(null)
   const [artworks, setArtworks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const params = useParams()
@@ -30,7 +46,7 @@ export default function AuthorProfilePage() {
         }
 
         const data = userSnap.data()
-        setUserData({ ...data, id: userSnap.id })
+        setUserData(data as UserData)
 
         if (data.isArtist) {
           const artworksQuery = query(collection(db, "arts"), where("userId", "==", uid))
@@ -51,33 +67,35 @@ export default function AuthorProfilePage() {
   if (loading) return <Loader></Loader>
   if (!userData) return <p className="text-center mt-10 text-red-500">Benutzer nicht gefunden</p>
 
-  // Datum formatieren
-  const createdAtTimestamp = userData.createdAt
-  let formattedDate = ""
-  if (createdAtTimestamp?.toDate) {
-    const date = createdAtTimestamp.toDate()
-    formattedDate = date.toLocaleString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  } else if (createdAtTimestamp) {
-    const date = new Date(createdAtTimestamp)
-    formattedDate = date.toLocaleString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  }
+  
+    let formattedDate = ""
+    const createdAt = userData.createdAt
 
+    if (typeof createdAt === "object" && createdAt !== null && "toDate" in createdAt) {
+     
+      const date = (createdAt as Timestamp).toDate()
+      formattedDate = date.toLocaleString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    } else if (createdAt) {
+     
+      const date = new Date(createdAt)
+      formattedDate = date.toLocaleString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    }
   return (
     <>
       <Navbar />
-      {/* md und größere Screens */}
+      {/*big screen  */}
       <div className=" sm:flex hidden  bg-[url('/images/artistpanel.png')] w-[80%] h-100 rounded-3xl bg-cover mx-auto bg-center mt-50">
           <img src={userData.avatarUrl} alt="Avatar" className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-35/100 w-54 xl:-translate-x-1/2 xl:-translate-y-45/100 xl:w-64 rounded-full "/> 
         <div className="w-full grid grid-cols-3 grid-rows-2 gap-6 text-xl">
@@ -88,7 +106,13 @@ export default function AuthorProfilePage() {
                   Autor
                 </div>
               )}</div>
-          <div className=" p-10 text-center">Ausstellungen: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
+         <div className=" p-10 text-center">Ausstellungen: {userData.exhibitions && userData.exhibitions.length > 0 ? (
+                userData.exhibitions.map((exhibition, index) => (
+                  <div key={index}>{exhibition}</div>
+                ))
+              ) : (
+                <div>Keine Ausstellungen</div>
+              )}</div>
           <div className=" text-center flex flex-col gap-2">
             
             <h2 className="text-4xl font-bold">{userData.username}</h2>
@@ -117,7 +141,13 @@ export default function AuthorProfilePage() {
            
             <p className="text-left">Anzahl der Werke: {artworks.length}</p>
               
-              <p>Ausstellungen:  SO SEHE DAS ICH 1 </p>
+              <div className=" ">Ausstellungen: {userData.exhibitions && userData.exhibitions.length > 0 ? (
+                userData.exhibitions.map((exhibition, index) => (
+                  <div key={index}>{exhibition}</div>
+                ))
+              ) : (
+                <div>Keine Ausstellungen</div>
+              )}</div>
               <div className="">
 
               </div>

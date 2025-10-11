@@ -25,6 +25,7 @@ interface UserProfile {
   isArtist: boolean;
   avatarUrl?: string;
   createdAt: string;
+  exhibitions: string[];
 }
 
 interface UserData {
@@ -37,13 +38,15 @@ interface UserData {
   isArtist: boolean;
   avatarUrl?: string;
   createdAt: string;
+  exhibitions: string[];
 }
+
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter()
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [artworks, setArtworks] = useState<any[]>([]);
 
   useEffect(() => {
@@ -67,8 +70,11 @@ export default function ProfilePage() {
             bio: data.bio ?? "",
             isArtist: data.isArtist ?? false,
             avatarUrl: data.avatarUrl,
+            exhibitions: data.exhibitions ?? [],
           };
           setUserData(userProfile);
+          
+
 
           if (data.isArtist) {
             const artworksQuery = query(collection(db, "arts"), where("userId", "==", currentUser.uid))
@@ -111,7 +117,13 @@ export default function ProfilePage() {
                  Autor
                 </div>
               )}</div>
-          <div className=" p-10 text-center">Ausstellungen: <br /> SO SEHE DAS ICH 1 <br /> 29.10.2025</div>
+          <div className=" p-10 text-center">Ausstellungen: {userData.exhibitions && userData.exhibitions.length > 0 ? (
+                userData.exhibitions.map((exhibition, index) => (
+                  <div key={index}>{exhibition}</div>
+                ))
+              ) : (
+                <div>Keine Ausstellungen</div>
+              )}</div>
           <div className=" text-center flex flex-col gap-2">
             
             <h2 className="text-4xl font-bold">{userData.username}</h2>
@@ -145,7 +157,13 @@ export default function ProfilePage() {
            
             <p className="text-left">Anzahl der Werke: {artworks.length}</p>
               
-              <p>Ausstellungen:  SO SEHE DAS ICH 1 </p>
+              <div className=" ">Ausstellungen: {userData.exhibitions && userData.exhibitions.length > 0 ? (
+                userData.exhibitions.map((exhibition, index) => (
+                  <div key={index}>{exhibition}</div>
+                ))
+              ) : (
+                <div>Keine Ausstellungen</div>
+              )}</div>
               <div className="">
 
               </div>

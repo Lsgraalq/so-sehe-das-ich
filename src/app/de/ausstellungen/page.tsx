@@ -18,6 +18,7 @@ interface Exhibition {
   participants: string[]
   arts: string[]
   city: string
+  
 }
 
 function Page() {

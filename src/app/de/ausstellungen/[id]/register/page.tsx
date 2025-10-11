@@ -39,6 +39,7 @@ interface UserData {
   isArtist: boolean;
   avatarUrl?: string;
   createdAt: string;
+  exhibitions: string
 }
 
 interface Exhibition {
@@ -163,6 +164,15 @@ export default function RegisterExhibitionPage() {
       for (const art of arts) {
         const artRef = doc(db, "arts", art.id)
         const exhbRef = doc(db, "exhibitions", exhibitionId)
+              
+        if (auth.currentUser && exhibition) {
+          const profileRef = doc(db, "users", auth.currentUser.uid)
+          await updateDoc(profileRef, {
+            exhibitions: arrayUnion(exhibition.title) 
+          })
+        }
+
+       
         if (selected.includes(art.id)) {
           await updateDoc(artRef, { exhibition: exhibitionId })
          await updateDoc(exhbRef, {
@@ -172,7 +182,12 @@ export default function RegisterExhibitionPage() {
         } else {
           await updateDoc(artRef, { exhibition: null })
           await updateDoc(exhbRef, {arts: arrayRemove(art.id),})
-
+          if (auth.currentUser && exhibition) {
+            const profileRef = doc(db, "users", auth.currentUser.uid)
+            await updateDoc(profileRef, {
+              exhibitions: arrayRemove(exhibition.title) 
+          })
+          }
           if (exhibition) {
                   const stillHasArts = arts.some(
                     (a) => selected.includes(a.id) && a.userId === uid

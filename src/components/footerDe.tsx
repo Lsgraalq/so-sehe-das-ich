@@ -6,7 +6,6 @@ function FooterDe() {
         <div className="flex flex-row justify-between mb-7 gap-3">
             <div className="flex flex-col xl:border-r-1 xl:pr-40 border-white ">
                 <ul className='text-sm  md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1'>
-                    <li className=""><a href="/de/profile/edit/">Einstellungen</a></li>
                     <li className=""><a href="/de/contact-us/">Kontakt</a></li>
                     <li className=""><a href="/de/support-us/">Unterstütze uns</a></li>
                     <li className=""><a href="/de/faq/">FAQ</a></li>
