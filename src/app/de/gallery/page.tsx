@@ -26,7 +26,7 @@ export type Art = {
   blurDataURL?: string;
 };
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 2;
 
 export default function ArtGallery() {
   const [arts, setArts] = useState<Art[]>([]);
@@ -181,7 +181,7 @@ export default function ArtGallery() {
       <div className="p-6 max-w-5xl xl:max-w-[90%] mx-auto">
         <div
           ref={gridRef}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-6 xl:gap-10"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5  2xl:grid-cols-7 gap-6 xl:gap-10 gap-y-12"
         >
           {arts.map((art) => (
             <Link
