@@ -1,27 +1,39 @@
-import { collection, getDocs } from 'firebase/firestore';
+// utils/fetchArts.ts
 import { db } from "@/firebase/config";
-
+import { collection, getDocs, limit, orderBy, query, startAfter } from "firebase/firestore";
 
 export type Art = {
   id: string;
   title: string;
-  description?: string;
-  userId: string;
-  authorUsername: string;
   imageUrl: string;
-  price?: number;
-  height?: number;
+  authorUsername?: string;
   width?: number;
-  exhibition?: string;
-  forSale?: boolean;
-  paints?: string[];
+  height?: number;
+  createdAt?: any;
 };
 
-export const fetchArt = async (): Promise<Art[]> => {
-  const querySnapshot = await getDocs(collection(db, 'arts'));
-  const ArtList: Art[] = querySnapshot.docs.map((doc) => ({
+export async function fetchArt({
+  limitNum = 20,
+  cursor = null,
+}: {
+  limitNum?: number;
+  cursor?: any;
+} = {}): Promise<{ items: Art[]; nextCursor: any; hasMore: boolean }> {
+  const colRef = collection(db, "arts");
+  let q = query(colRef, orderBy("createdAt", "desc"), limit(limitNum));
+
+  if (cursor) q = query(colRef, orderBy("createdAt", "desc"), startAfter(cursor), limit(limitNum));
+
+  const snap = await getDocs(q);
+  const items: Art[] = snap.docs.map((doc) => ({
     id: doc.id,
-    ...(doc.data() as Omit<Art, 'id'>)
+    ...(doc.data() as Omit<Art, "id">),
   }));
-  return ArtList;
-};
+
+  const lastDoc = snap.docs[snap.docs.length - 1];
+  return {
+    items,
+    nextCursor: lastDoc ?? null,
+    hasMore: items.length === limitNum,
+  };
+}
