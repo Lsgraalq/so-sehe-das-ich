@@ -75,9 +75,22 @@ export default function ArtClient({ id }: { id: string }) {
       <Navbar />
       <div className="pt-25 flex flex-col gap-10 mx-5">
         <div className="max-w-[80%] md:max-w-[70%] xl:max-w-[60%] mx-auto relative">
-          <div className="flex absolute bg-[#E35A5A] md:w-60 md:h-10 end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
-            <p className="flex mx-auto items-center md:text-xl xl:text-2xl italic">Status</p>
+          {art.inAuction && (
+            <div className="flex absolute bg-[#E35A5A] md:w-60 md:h-10 end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
+            <p className="flex mx-auto items-center md:text-xl xl:text-2xl italic">Auktion</p>
           </div>
+          )}
+          {art.price && (
+            <div className="flex absolute bg-[#E8B672] md:w-60 md:h-10 end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
+            <p className="flex mx-auto items-center md:text-xl xl:text-2xl italic">Zu verkaufen</p>
+          </div>
+          )}
+          {art.isSold && (
+            <div className="flex absolute bg-[#6D628A] md:w-60 md:h-10 end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">
+            <p className="flex mx-auto items-center md:text-xl xl:text-2xl italic">Verkauft</p>
+          </div>
+          )}
+          
           <img src={art.imageUrl} alt="Foto" className="w-full h-full object-cover mx-auto rounded-xl"/>
         </div>
 

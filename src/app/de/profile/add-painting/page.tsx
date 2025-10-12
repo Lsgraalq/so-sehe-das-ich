@@ -9,6 +9,7 @@ import FooterDe from "@/components/footerDe";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/navigation";
+import ImageUploaderWrapper from "@/components/ImageUploaderWrapper"
 
 
 const materialOptions = [
@@ -33,11 +34,13 @@ export default function AddArtPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<number>(0);
+  const [resetTrigger, setResetTrigger] = useState(false)
   
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
   const [year, setYear] = useState<number | null>(null);
   const [height, setHeight] = useState<number | null>(null);
+  const [inAuction, setInAuction] = useState<boolean>(false);
   const [width, setWidth] = useState<number | null>(null);
   const [creationDate, setCreationDate] = useState<Date | null>(null);
 
@@ -98,6 +101,7 @@ export default function AddArtPage() {
               forSale,
               imageUrl,
               createdAt: Timestamp.now(),
+              inAuction,
             });
            
             alert("Das Kunstwerk wurde erfolgreich hinzugefügt!");
@@ -105,7 +109,7 @@ export default function AddArtPage() {
             setDescription("");
             setPrice(null);
             setForSale(false);
-            setImageFile(null);
+            setResetTrigger((prev) => !prev);
             setProgress(0);
             setLoading(false);
             setSelectedMaterials([]);
@@ -129,15 +133,19 @@ export default function AddArtPage() {
   return (
     <>
       <NavbarDe />
-      <div className="max-w-2xl mx-auto p-6 bg-black rounded-xl shadow-md space-y-4 text-white pt-20">
+      
+      <div className="md:max-w-[75%] px-5 mx-auto p-6 flex flex-col space-y-4 text-white pt-20">
         <h1 className="text-2xl font-bold">Kunstwerk hinzufügen</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6 mx-auto ">
+            <ImageUploaderWrapper onFileSelect={setImageFile} resetTrigger={resetTrigger} />
+
+            
           <input
             type="text"
             placeholder="Titel"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded bg-zinc-900 text-white"
+            className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
             required
           />
 
@@ -145,7 +153,7 @@ export default function AddArtPage() {
             placeholder="Beschreibung"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded bg-zinc-900 text-white"
+            className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
             required
           />
 
@@ -159,10 +167,10 @@ export default function AddArtPage() {
                   onClick={() =>
                     handleToggle(selectedMaterials, setSelectedMaterials, m)
                   }
-                  className={`px-3 py-1 rounded ${
+                  className={`px-3 py-1 rounded transition-all duration-300 ease-in-out transform ${
                     selectedMaterials.includes(m)
-                      ? "bg-purple-600 text-white"
-                      : "bg-purple-300 text-black"
+                      ? "bg-[#8828ee] text-white scale-105 shadow-[0_0_10px_#e41717aa]"
+                      : "bg-[#9773BD] text-white"
                   }`}
                 >
                   {m}
@@ -173,24 +181,24 @@ export default function AddArtPage() {
 
           <div>
             <label className="font-semibold">Farbart:</label>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {paintOptions.map((p) => (
-                <button
-                  type="button"
-                  key={p}
-                  onClick={() =>
-                    handleToggle(selectedPaints, setSelectedPaints, p)
-                  }
-                  className={`px-3 py-1 rounded ${
-                    selectedPaints.includes(p)
-                      ? "bg-red-600 text-white"
-                      : "bg-red-400 text-black"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
+           <div className="flex flex-wrap gap-2 mt-2">
+  {paintOptions.map((p) => (
+    <button
+      type="button"
+      key={p}
+      onClick={() => handleToggle(selectedPaints, setSelectedPaints, p)}
+      className={`px-3 py-1 rounded transition-all duration-300 ease-in-out transform
+        ${
+          selectedPaints.includes(p)
+            ? "bg-[#e41717] text-white scale-105 shadow-[0_0_10px_#e41717aa]"
+            : "bg-[#E24C4C] text-white"
+        }`}
+    >
+      {p}
+    </button>
+  ))}
+</div>
+
           </div>
 
           <div>
@@ -200,15 +208,15 @@ export default function AddArtPage() {
                 selected={creationDate}
                 onChange={(date: Date | null) => setCreationDate(date)}
                 dateFormat="dd.MM.yyyy"
-                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
                 placeholderText="Datum wählen"
                 showYearDropdown
                 scrollableYearDropdown
               />
             </div>
           </div>
-
-          <div className="flex items-center gap-2">
+          {!inAuction && (
+<div className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={forSale}
@@ -216,6 +224,8 @@ export default function AddArtPage() {
             />
             <label>Zum Verkauf</label>
           </div>
+          )}
+          
 
           {forSale && (
             <input
@@ -223,10 +233,23 @@ export default function AddArtPage() {
               placeholder="Preis (€)"
               value={price ?? ""}
               onChange={(e) => setPrice(Number(e.target.value))}
-              className="w-full p-2 border rounded bg-zinc-900 text-white"
+              className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
               required={forSale}
             />
           )}
+
+          {!forSale && (
+            <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={inAuction}
+              onChange={(e) => setInAuction(e.target.checked)}
+            />
+            <label>Nimmt an der Auktion teilf</label>
+          </div>
+
+          )}
+          
 
           <div className="flex gap-2">
             <div className="w-1/2">
@@ -236,7 +259,7 @@ export default function AddArtPage() {
                 placeholder="z.B. 80"
                 value={height ?? ""}
                 onChange={(e) => setHeight(Number(e.target.value))}
-                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
                 required
               />
             </div>
@@ -247,53 +270,25 @@ export default function AddArtPage() {
                 placeholder="z.B. 60"
                 value={width ?? ""}
                 onChange={(e) => setWidth(Number(e.target.value))}
-                className="w-full p-2 border rounded bg-zinc-900 text-white"
+                className="w-full p-3  rounded bg-[#FAF3F3] text-gray-500 focus:outline-none focus:border-0"
                 required
               />
             </div>
           </div>
 
-          <div>
-            <label>Bild hochladen:</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                e.target.files && setImageFile(e.target.files[0])
-              }
-              required
-              className="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4
-                         file:rounded file:border-0 file:text-sm
-                         file:font-semibold file:bg-orange-500 file:text-white
-                         hover:file:bg-orange-600"
-            />
-          </div>
-
-          {imageFile && (
-            <img
-              src={URL.createObjectURL(imageFile)}
-              alt="preview"
-              className="w-full max-h-64 object-contain rounded"
-            />
-          )}
-
-          {loading && (
-            <div className="w-full bg-gray-700 rounded h-4">
-              <div
-                className="bg-blue-600 h-4 rounded"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          )}
+         
 
          
+         <div className="w-full text-center pt-10">
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white p-2 rounded"
+            className="min-w-[30%]  bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] text-white p-2 rounded"
             disabled={loading}
           >
             {loading ? `Lädt... ${progress}%` : "Kunstwerk hinzufügen"}
           </button>
+         </div>
+          
         </form>
       </div>
       <FooterDe />
