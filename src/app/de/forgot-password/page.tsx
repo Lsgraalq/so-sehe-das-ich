@@ -18,7 +18,7 @@ export default function ForgotPasswordDe() {
     setMsg("")
     try {
       await sendPasswordResetEmail(auth, email, {
-        url: "https://your-domain.com/de/reset-password",
+        url: "https://so-sehe-das-ich.art/de/reset-password",
         handleCodeInApp: false,
       })
       setMsg("Eine E-Mail zum Zurücksetzen des Passworts wurde gesendet ✅")
