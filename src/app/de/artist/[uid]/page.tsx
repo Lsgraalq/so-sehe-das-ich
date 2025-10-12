@@ -8,7 +8,7 @@ import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
 import Loader from "@/components/loader"
 import { Timestamp } from "firebase/firestore";
-
+import Image from "next/image"
 
 interface UserData {
   userUid: string;
@@ -179,11 +179,16 @@ export default function AuthorProfilePage() {
           key={art.id}
           className="rounded-sm overflow-hidden"
         >
-          <img
-            src={art.imageUrl}
-            alt={art.title}
-            className="w-full h-64 object-cover"
-          />
+           <Image
+                  src={art.imageUrl}
+                  alt={art.title || "Artwork"}
+                  width={800}
+                  height={600}
+                  className="w-full h-64 object-cover rounded-md"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  priority={false}
+                />
+          
           <div className="pt-4 pl-0.5">
             <h2 className="text-lg font-semibold">{art.title}</h2>
             <p className="text-gray-600 mt-2">{art.height}cm x {art.width}cm</p>

@@ -13,7 +13,7 @@ import FooterDe from "@/components/footerDe";
 import { useParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { MdOutlineModeEdit } from "react-icons/md"
-
+import Image from "next/image";
 
 interface UserProfile {
   userUid : string;
@@ -181,7 +181,7 @@ export default function ProfilePage() {
     </div> */}
 
     {/* artworks */}
-    <div className="max-w-6xl mx-auto mt-10 px-4">
+    <div className="max-w-[80%] mx-auto mt-10 px-4">
         {userData.isArtist && (
           <>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Gemälde</h2>
@@ -193,27 +193,48 @@ export default function ProfilePage() {
               
               
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-8">
                 <a href="/de/profile/add-painting/" className="block">
                   <img src="/images/add-painting.png" alt="" className="max-w-[100%]" />
                 </a>
                 {artworks.map(art => (
-                   <a
-          href={'/de/gallery/arts/' + art.id}
-          key={art.id}
-          className="rounded-sm overflow-hidden max-w-[100%]"
-        >
-          <img
-            src={art.imageUrl}
-            alt={art.title}
-            className="w-full h-64 object-cover "
-          />
-          <div className="pt-4 pl-0.5">
-            <h2 className="text-lg font-semibold">{art.title}</h2>
-            <p className="text-gray-600 mt-2">{art.height}cm x {art.width}cm</p>
-            <p className="text-gray-600">Autor: {art.authorUsername}</p>
-          </div>
-        </a>
+                 <div
+  key={art.id}
+  className="relative group rounded-lg overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_0_25px_rgba(0,0,0,0.5)] transition-all duration-300"
+>
+  {/* Фото и описание */}
+  <a href={`/de/gallery/arts/${art.id}`} className="block">
+    <Image
+      src={art.imageUrl}
+      alt={art.title || "Artwork"}
+      width={800}
+      height={600}
+      className="w-full h-120 sm:h-64 object-cover rounded-md group-hover:scale-[1.03] transition-transform duration-500"
+      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+    />
+    <div className="pt-4 pl-0.5">
+      <h2 className="text-lg font-semibold">{art.title}</h2>
+      <p className="text-gray-600 mt-2">{art.height}cm × {art.width}cm</p>
+      <p className="text-gray-600">Autor: {art.authorUsername}</p>
+    </div>
+  </a>
+
+  {/* Кнопка редактирования */}
+  <a
+    href={`/de/profile/${art.id}`}
+    className="
+      absolute top-3 right-3 z-10 
+      bg-gradient-to-r from-[#ff6b6b] to-[#f368e0] text-white p-2 rounded-full shadow-md 
+      transition-all duration-300 hover:scale-110
+      opacity-0 group-hover:opacity-100
+      sm:opacity-0 sm:group-hover:opacity-100   /* на ПК — только при hover */
+      opacity-100 sm:opacity-0                /* на телефоне — всегда видна */
+    "
+    title="Bearbeiten"
+  >
+    <MdOutlineModeEdit size={22} />
+  </a>
+</div>
                 ))}
               </div>
             )}

@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore"
 import Navbar from "@/components/navbarDe"
 import FooterDe from "@/components/footerDe"
 import Loader from "./loader"
-
+import Image from "next/image"
 type Author = { username: string }
 
 interface Exhibition {
@@ -91,7 +91,18 @@ export default function ArtClient({ id }: { id: string }) {
           </div>
           )}
           
-          <img src={art.imageUrl} alt="Foto" className="w-full h-full object-cover mx-auto rounded-xl"/>
+      
+
+            <Image
+  src={art.imageUrl}
+  alt={art.title || "Foto"}
+  width={1200}
+  height={900}
+  className="w-full h-auto max-h-[80vh] object-contain mx-auto rounded-2xl shadow-[0_0_25px_rgba(0,0,0,0.4)] transition-transform duration-500"
+  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 60vw"
+  priority
+/>
+
         </div>
 
         <div className="text-xl flex flex-col gap-3 sm:min-w-[80%] sm:mx-auto min-w-[80%] mx-auto">
