@@ -40,7 +40,6 @@ export default function AddArtPage() {
   const [selectedPaints, setSelectedPaints] = useState<string[]>([]);
   const [year, setYear] = useState<number | null>(null);
   const [height, setHeight] = useState<number | null>(null);
-  const [inAuction, setInAuction] = useState<boolean>(false);
   const [width, setWidth] = useState<number | null>(null);
   const [creationDate, setCreationDate] = useState<Date | null>(null);
 
@@ -84,9 +83,17 @@ export default function AddArtPage() {
             );
             if (snap.exists()) username = snap.data().username ?? "";
 
-            // сохраняем картину
+            const keywords = Array.from(
+              new Set(
+                (title + " " + description)
+                  .toLowerCase()
+                  .split(/\s+/)
+                  .filter(Boolean)
+              )
+            )
             await addDoc(collection(db, "arts"), {
               title,
+              keywords,
               description,
               userId: auth.currentUser!.uid,
               authorUsername: username,
@@ -101,7 +108,7 @@ export default function AddArtPage() {
               forSale,
               imageUrl,
               createdAt: Timestamp.now(),
-              inAuction,
+              
             });
            
             alert("Das Kunstwerk wurde erfolgreich hinzugefügt!");
@@ -215,7 +222,7 @@ export default function AddArtPage() {
               />
             </div>
           </div>
-          {!inAuction && (
+          
 <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -224,7 +231,7 @@ export default function AddArtPage() {
             />
             <label>Zum Verkauf</label>
           </div>
-          )}
+          
           
 
           {forSale && (
@@ -238,17 +245,7 @@ export default function AddArtPage() {
             />
           )}
 
-          {!forSale && (
-            <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={inAuction}
-              onChange={(e) => setInAuction(e.target.checked)}
-            />
-            <label>Nimmt an der Auktion teilf</label>
-          </div>
-
-          )}
+          
           
 
           <div className="flex gap-2">
