@@ -73,7 +73,7 @@ export default function ArtClient({ id }: { id: string }) {
   return (
     <>
       <Navbar />
-      <div className="pt-25 flex flex-col gap-10 mx-5">
+      <div className="pt-25 flex flex-col gap-10 mx-5 min-h-screen">
         <div className="max-w-[80%] md:max-w-[70%] xl:max-w-[60%] mx-auto relative">
           {art.inAuction && (
             <div className="flex absolute bg-[#E35A5A] md:w-60 md:h-10 end-0 right-[-30] top-[-20] rounded-lg w-40 h-9">

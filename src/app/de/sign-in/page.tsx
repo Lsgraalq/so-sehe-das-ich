@@ -89,8 +89,11 @@ export default function LoginPage() {
       Anmelden
     </button>
   </form>
-
+<div className="flex flex-row justify-between">
   <a href="/de/sign-up" className="block pt-5 text-blue-400 text-center hover:underline hover:cursor-pointer">Noch kein Konto?</a>
+  <a href="/de/forgot-password" className="block pt-5 text-blue-400 text-center hover:underline hover:cursor-pointer">Passwort vergessen?</a>
+</div>
+  
 </div>
 
     </div>

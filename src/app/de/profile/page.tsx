@@ -15,6 +15,10 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { MdOutlineModeEdit } from "react-icons/md"
 import Image from "next/image";
 
+import Loader from "@/components/loader";
+import Preloader from "@/components/preloader";
+
+
 interface UserProfile {
   userUid : string;
   firstName: string;
@@ -89,17 +93,18 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, []);
 
-  if (!authChecked) return <p>Laden...</p>;
+  if (!authChecked) return  <><Loader></Loader></>;
 
   if (!user ) {
     router.push("/de/sign-in");
     return <p>Weiterleitung...</p>;
   }
 
-  if (!userData) return <p>Laden...</p>;
+  if (!userData) return <><Loader></Loader></>;
 
   return (
     <>
+    <Preloader></Preloader>
     <Navbar></Navbar>
     <div className=" sm:flex hidden  bg-[url('/images/artistpanel.png')] w-[80%] h-100 rounded-3xl bg-cover mx-auto bg-center mt-50">
           <img src={userData.avatarUrl} alt="AVatar" className="absolute  left-1/2 transform -translate-x-1/2 -translate-y-35/100 w-54 xl:-translate-x-1/2 xl:-translate-y-45/100 xl:w-64 rounded-full "/> 
@@ -223,11 +228,11 @@ export default function ProfilePage() {
   <a
     href={`/de/profile/${art.id}`}
     className="
-      absolute top-3 right-3 z-10 
-      bg-gradient-to-r from-[#ff6b6b] to-[#f368e0] text-white p-2 rounded-full shadow-md 
+      absolute top-3 right-3 z-1 
+      bg-gradient-to-r from-[#ff4d4d] to-[#f36896] text-white p-2 rounded-full shadow-md 
       transition-all duration-300 hover:scale-110
-      opacity-0 group-hover:opacity-100
-      sm:opacity-0 sm:group-hover:opacity-100   /* на ПК — только при hover */
+       group-hover:opacity-100
+       sm:group-hover:opacity-100   /* на ПК — только при hover */
       opacity-100 sm:opacity-0                /* на телефоне — всегда видна */
     "
     title="Bearbeiten"
