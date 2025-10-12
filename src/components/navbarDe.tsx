@@ -196,6 +196,14 @@ export default function Navbar() {
                     FAQ
                   </li>
                 </Link>
+                {userData && userData.isAdmin && (
+              <Link
+                href="/de/admin"
+                className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide"
+              >
+                Admin panel
+              </Link>
+            )}
                  
             </ul>
           </div>
