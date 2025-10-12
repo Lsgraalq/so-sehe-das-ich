@@ -1,8 +1,8 @@
 import React from 'react'
 
-function FooterDe() {
+function FooterBOG() {
   return (
-    <div className="text-xl px-2 mt-20 mb-7 text-gray-500 lg:px-20 " >
+    <div className="text-xl px-2 mt-20 mb-7 text-gray-500 lg:px-20 bg-[url('/images/footer.png')] bg-cover bg-center bg-no-repeat min-h-screen pt-100" >
         <div className="flex flex-row justify-between mb-7 gap-3">
             <div className="flex flex-col xl:border-r-1 xl:pr-40 border-white ">
                 <ul className='text-sm  md:text-lg  xl:text-xl flex flex-col xl:gap-6 gap-1'>
@@ -44,4 +44,4 @@ function FooterDe() {
   )
 }
 
-export default FooterDe
+export default FooterBOG

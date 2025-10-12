@@ -7,26 +7,11 @@ import { auth } from "@/firebase/config"
 import {  useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { getDoc, doc } from "firebase/firestore"
-import { db } from "@/firebase/config"
 
-interface UserData {
-  userUid : string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  bio?: string;
-  username: string;
-  isArtist: boolean;
-  avatarUrl?: string;
-  createdAt: string;
-  exhibitions: string[];
-  isAdmin?: boolean;
-}
 
-export default function Navbar() {
+export default function NavbarBOG() {
   const [user] = useAuthState(auth)
-  const [userData, setUserData] = useState<UserData | null>(null)
+  const [userData, setUserData] = useState<any>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [langMenuOpen, setLangMenuOpen] = useState(false)
 
@@ -58,34 +43,14 @@ export default function Navbar() {
       lastScrollY = currentScroll
     }
 
-
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-    useEffect(() => {
-    const fetchUser = async () => {
-      if (!auth.currentUser) return
-
-      const userRef = doc(db, "users", auth.currentUser.uid)
-
-      const snap = await getDoc(userRef)
-
-      if (snap.exists()) {
-        setUserData(snap.data() as UserData)
-      } else {
-        console.warn("Документ не найден")
-      }
-    }
-
-    fetchUser()
-
-  }, [auth.currentUser])
 
   return (
-    <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[2] bg-[#0A0A0A]">
-      <div className="flex justify-between items-center h-full w-full contaner md:px-20 px-8">
+    <div  ref={navRef} className="fixed w-full top-0 h-18 shadow-xl z-[100] bg-[url('/images/navbar.png')] min-h-[20vh] bg-cover bg-center bg-no-repeat">
+      <div className="flex justify-between items-center h-full w-full contaner md:px-20 px-8 ">
         <Link href={"/de"}>
           <div className="uppercase xl:text-xl sm:text-base">
             <img src="/images/title.png" alt="" className="w-[70%]" />
@@ -93,7 +58,7 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden lg:flex">
-          <ul className="hidden lg:flex gap-20">
+          <ul className="hidden lg:flex gap-20 ">
             <Link href={"/de/ausstellungen"}>
               <li className="uppercase hover:underline xl:text-xl sm:text-base text-white Libre_wide">
                 Ausstellungen
@@ -123,14 +88,6 @@ export default function Navbar() {
                 </li>
               </Link>
             )}
-            {userData && userData.isAdmin && (
-              <Link
-                href="/de/admin"
-                className="uppercase hover:underline xl:text-xl text-white sm:text-base Libre_wide"
-              >
-                Admin panel
-              </Link>
-            )}
           </ul>
         </div>
 
@@ -141,8 +98,8 @@ export default function Navbar() {
         <div
           className={
             menuOpen
-              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[#0A0A0A] p-10 ease-in duration-500 z-1000"
-              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 z-1000"
+              ? "fixed left-0 top-0 w-[65%] lg:hidden h-screen bg-[url('/images/navbarMenu.png')] bg-cover bg-center bg-no-repeat p-10 ease-in duration-500 z-1000"
+              : "fixed left-[-100%] top-0 p-10 ease-in duration-300 bg-[url('/images/navbarMenu.png')] bg-cover bg-center bg-no-repeat z-1000"
           }
         >
           <div className="flex w-full items-center justify-end z-1000">
