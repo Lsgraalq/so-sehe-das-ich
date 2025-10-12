@@ -1,9 +1,46 @@
+"use client"
 import React from 'react'
 import NavbarBOG from '@/components/navbarBOG'
 import FooterBOG from '@/components/footerBOG'
 import AdminGuard from '@/components/AdminGuard'
+import { getDocs, collection } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
+import { db } from '@/firebase/config'
+import Link from 'next/link'
+
+interface Exhibition {
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  titleImage: string
+  carousel?: string[]
+  participants: string[]
+  arts: string[]
+  city: string
+  actual: boolean
+}
+
 
 function page() {
+
+  const [exhibitions, setExhibitions] = useState<Exhibition[]>([])
+
+  useEffect(() => {
+    const fetchExhibitions = async () => {
+      try {
+        const snap = await getDocs(collection(db, "exhibitions"))
+        const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Exhibition[]
+        setExhibitions(data)
+      } catch (error) {
+        console.error("Ошибка загрузки выставок:", error)
+      }
+    }
+    fetchExhibitions()
+  }, [])
+
+
   return (
     <>
     <AdminGuard></AdminGuard>
@@ -20,6 +57,12 @@ function page() {
       <div className="min-h-screen  flex flex-col gap-y-10 md:min-w-[80%] px-10 mx-auto md:px-0 bg-[url('/images/backgroundLOL.png')] bg-cover bg-center bg-no-repeat">
       <a href="/de/ausstellungen/add" className="text-blue-400 text-bold text-2xl hover:underline hover:cursor-pointer"> - ausstellungen add</a>
       <a href="/de/faq/edit" className="text-blue-400 text-bold text-2xl hover:underline hover:cursor-pointer"> - faq edit + add</a>
+      {exhibitions.map(ex => (
+        <Link key={ex.id} href={`/de/ausstellungen/${ex.id}/edit`} className="block py-2">
+          edit to edit - {ex.title}
+        </Link>
+      ))}
+
       <div className="flex px-0 md:px-10 flex-col gap-y-5">
          <h2 className='md:text-white text-red-600 text-4xl'>Info</h2>
       <p className="md:text-white text-red-600 text-2xl font-bold">To edit Ausstellung <br /> <span className='2xl:text-red-600'>go on Ausstellung page and edit url to [ausstellungId]/edit</span></p>
