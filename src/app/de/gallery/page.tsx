@@ -126,7 +126,7 @@ export default function ArtGallery() {
           loadBatch(false);
         }
       },
-      { rootMargin: "800px 0px" } // начинаем подгружать заранее
+      { rootMargin: "800px 0px" } 
     );
 
     io.observe(el);
@@ -139,7 +139,7 @@ export default function ArtGallery() {
     <>
       <Navbar />
 
-      {/* Hero (малый экран) */}
+      
       <div className="flex md:hidden h-screen bg-[url('/images/kunsthubsmall.png')] bg-cover bg-center">
         <div className="flex flex-col h-screen justify-center gap-5">
           <h1 className="text-left mx-auto text-6xl font-bold flex flex-col">
