@@ -17,7 +17,7 @@ export default function Home() {
   const router = useRouter()
    useGSAP(() => {
     router.push('/de')
-    // создаём smoother, если ещё не создавали
+    
    
 
     
