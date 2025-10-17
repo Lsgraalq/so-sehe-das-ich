@@ -41,7 +41,7 @@ export default function SignUpPage() {
   try {
     const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
     const user = userCredentials.user
-
+    
     await sendEmailVerification(user)
 
     await setDoc(doc(db, "users", user.uid), {
@@ -56,10 +56,9 @@ export default function SignUpPage() {
       createdAt: serverTimestamp(),
     })
 
-    // 👉 сразу выкидываем
     await signOut(auth)
 
-    router.push("/de/sign-up/check-email") // страница с текстом: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
+    router.push("/de/sign-up/check-email") 
   } catch (error: any) {
     console.log("Fehler bei der Registrierung:", error)
     setErrorMsg(error.message || "Unbekannter Fehler bei der Registrierung.")
@@ -281,6 +280,9 @@ export default function SignUpPage() {
   </div>
 
   {/* Кнопка */}
+  {errorMsg && (
+  <p className="text-center text-sm text-red-400 mt-3">{errorMsg}</p>
+)}
   <button
     type="submit"
     disabled={!acceptedTerms}

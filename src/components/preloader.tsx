@@ -1,21 +1,25 @@
-// components/preloader/Preloader.tsx
 "use client"
-import { useEffect } from "react"
-import { useProgress } from "@/components/ProgressProvider"
+
+import { useEffect, useState } from "react"
+import gsap from "gsap"
 
 export default function Preloader() {
-  const { setAssetProgress } = useProgress()
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     if (typeof window === "undefined") return
-    const nodes = Array.from(document.querySelectorAll("img, video"))
+
+    const nodes = Array.from(window.document.querySelectorAll("img, video"))
     let loaded = 0
     const total = nodes.length
 
     const tick = () => {
       loaded += 1
       const pct = total ? Math.min(100, Math.round((loaded / total) * 100)) : 100
-      setAssetProgress(pct)
+      setProgress(pct)
+      if (loaded >= total) {
+        gsap.to(".preloader", { y: "-100%", duration: 0.8, ease: "power3.inOut", delay: 0.2 })
+      }
     }
 
     nodes.forEach((el) => {
@@ -37,10 +41,20 @@ export default function Preloader() {
     })
 
     if (total === 0) {
-      // если ассетов нет — быстро установить 100
-      setAssetProgress(100)
+      setProgress(100)
+      gsap.to(".preloader", { y: "-100%", duration: 0.8, ease: "power3.inOut", delay: 0.2 })
     }
-  }, [setAssetProgress])
+  }, [])
 
-  return null // визуал не рендерим — им займётся Loader
+  return (
+   <div className="preloader fixed inset-0 flex flex-col items-center justify-center bg-black text-white z-50">
+        <h1 className="text-2xl font-bold mb-4">Wird geladen… {progress}%</h1>
+        <div className="w-64 h-2 bg-gray-700 rounded overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-[#FEC97C] to-[#E35A5A] transition-all duration-200"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+  )
 }

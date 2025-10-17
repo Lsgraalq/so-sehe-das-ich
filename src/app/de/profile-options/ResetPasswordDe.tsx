@@ -12,7 +12,9 @@ import FooterDe from "@/components/footerDe"
 export default function ResetPasswordDe() {
   const params = useSearchParams()
   const router = useRouter()
+  
   const oobCode = params.get("oobCode")
+  const mode = params.get("mode")
 
   const [email, setEmail] = useState("")
   const [newPassword, setNewPassword] = useState("")
