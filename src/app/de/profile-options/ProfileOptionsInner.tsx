@@ -9,12 +9,11 @@ export default function ProfileOptionsInner() {
   const params = useSearchParams()
   const router = useRouter()
   const section = params.get("section")
-  const [currentSection, setCurrentSection] = useState<string | null>(null)
+  const [currentSection, setCurrentSection] = useState<string>("profile")
 
   useEffect(() => {
     if (!section) {
       router.replace("/de/profile-options?section=profile")
-      setCurrentSection("profile")
     } else {
       setCurrentSection(section)
     }
@@ -27,7 +26,7 @@ export default function ProfileOptionsInner() {
         {currentSection === "profile" && <p>👤 Profiloptionen</p>}
         {currentSection === "settings" && <p>⚙️ Kontoeinstellungen</p>}
         {currentSection === "security" && <p>🔒 Sicherheit</p>}
-        {!["profile", "settings", "security"].includes(currentSection || "") && (
+        {!["profile", "settings", "security"].includes(currentSection) && (
           <p>❓ Ungültiger Abschnitt</p>
         )}
       </div>
