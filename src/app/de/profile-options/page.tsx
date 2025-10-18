@@ -1,12 +1,12 @@
 "use client"
 
+import { Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-export default function ProfileOptionsPage() {
+function ProfileOptionsRouter() {
   const params = useSearchParams()
   const router = useRouter()
-
   const mode = params.get("mode")
   const oobCode = params.get("oobCode")
 
@@ -24,5 +24,13 @@ export default function ProfileOptionsPage() {
     <div className="min-h-screen flex items-center justify-center text-white">
       Lädt...
     </div>
+  )
+}
+
+export default function ProfileOptionsPage() {
+  return (
+    <Suspense fallback={<div className="text-white text-center mt-10">Lädt...</div>}>
+      <ProfileOptionsRouter />
+    </Suspense>
   )
 }
